@@ -1,9 +1,11 @@
+-- TODO: Use Telescope's mapping options and Remove the event
 return {
 	"nvim-telescope/telescope.nvim",
 	tag = "0.1.6",
 	dependencies = {
 		{ "nvim-lua/plenary.nvim", lazy = true },
 	},
+	event = "VeryLazy",
 	config = function()
 		require("telescope").setup({})
 		local builtin = require("telescope.builtin")
@@ -16,7 +18,9 @@ return {
 		map("n", "<Leader>gc", builtin.git_commits, { desc = "Git Commits (Repo)" })
 		map("n", "<Leader>gC", builtin.git_bcommits, { desc = "Git Branches (Current File)" })
 		map("n", "<Leader>gt", builtin.git_status, { desc = "Git Status" })
-		map("n", "<Leader>ft", builtin.colorscheme({ enable_preview = true }), { desc = "Find Themes" })
+		map("n", "<Leader>ft", function()
+			builtin.colorscheme({ enable_preview = true })
+		end, { desc = "Find Themes" })
 		map({ "i", "n" }, "<M-Tab>", function()
 			if #vim.api.nvim_list_bufs() > 1 then
 				builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
