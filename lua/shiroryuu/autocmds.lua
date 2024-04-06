@@ -17,10 +17,10 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Highlight Yanks
 vim.api.nvim_create_autocmd("TextYankPost", {
-  desc = "Highlight when yanking"
-  group = vim.api.nvim_create_augroup("shiroryuu_highlight_yank", { clear = true })
+  desc = "Highlight when yanking",
+  group = vim.api.nvim_create_augroup("shiroryuu_highlight_yank", { clear = true }),
   callback = function()
-    vim.hightlight.on_yank()
+    vim.highlight.on_yank()
   end,
 })
 
