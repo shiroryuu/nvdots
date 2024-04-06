@@ -46,3 +46,31 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
   end,
 })
+
+-- LspAttach
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("shiroryuu_lspattach", { clear = true }),
+  callback = function(event)
+    vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+    local opts = { buffer = event.buf }
+    vim.keymap.set("n", "gd", function()
+      vim.lsp.buf.definition()
+    end, { desc = "List LSP definition" })
+    vim.keymap.set("n", "gD", function()
+      vim.lsp.buf.declaration()
+    end, { desc = "List LSP declaration" })
+    vim.keymap.set("n", "gD", function()
+      vim.lsp.buf.declaration()
+    end, { desc = "List LSP definition" })
+
+    vim.keymap.set("n", "[d", function()
+      vim.diagnostic.goto_next()
+    end, opts)
+    vim.keymap.set("n", "]d", function()
+      vim.diagnostic.goto_prev()
+    end, opts)
+    vim.keymap.set("i", "<C-h>", function()
+      vim.lsp.buf.signature_help()
+    end, opts)
+  end,
+})
