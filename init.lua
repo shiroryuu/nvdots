@@ -1,5 +1,4 @@
 for _, source in ipairs({
-	"shiroryuu.disable_builtins",
 	"shiroryuu.options",
 	"shiroryuu.autocmds",
 	"shiroryuu.lazy",
