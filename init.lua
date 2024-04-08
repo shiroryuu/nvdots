@@ -1,6 +1,6 @@
 for _, source in ipairs({
 	"shiroryuu.disable_builtins",
-	"shiroryuu.set_defaults",
+	"shiroryuu.options",
 	"shiroryuu.autocmds",
 	"shiroryuu.lazy",
 	"shiroryuu.mappings",
