@@ -1,15 +1,17 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = ", "
+for _, source in ipairs({
+	"shiroryuu.disable_builtins",
+	"shiroryuu.set_defaults",
+	"shiroryuu.autocmds",
+	"shiroryuu.lazy",
+	"shiroryuu.mappings",
+}) do
+	local status_ok, fault = pcall(require, source)
+	if not status_ok then
+		vim.api.nvim_err_write("Error! Failed to load " .. source .. "\n\n" .. fault)
+	end
+end
 
--- Disable builtin plugins
-require("shiroryuu.disable_builtins")
+local theme = require("shiroryuu.colorscheme")
+theme.setup("rose-pine")
 
--- Need to set leader and localleader before loading lazy
-require("shiroryuu.lazy")
--- Pass theme from here
-require("shiroryuu.autocmds")
-require("shiroryuu.mappings")
-require("shiroryuu.set_defaults")
-require("shiroryuu.colorscheme")
-
--- vim.notify("Test Notification")
+-- TODO: Load polish
