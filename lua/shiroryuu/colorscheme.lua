@@ -1,15 +1,18 @@
--- TODO: Soft Fail and load Default theme
 local theme = vim.g.theme_name or "tokyonight"
 local variant = vim.g.theme_variant or theme == "tokyonight" and "night" or ""
 
 local ok, err = pcall(require, theme)
 
 if not ok then
-	vim.api.nvim_err_writeln("Failed to load " .. theme .. "\n\n" .. err)
+	vim.api.nvim_err_writeln("Failed to load colorscheme:" .. theme .. "\nError:\n" .. err)
+	print("\n Loading colorscheme theme Tokyonight\n")
+	if pcall(require, "tokyonight") then
+		vim.cmd.colorscheme("tokyonight")
+	end
 	return
 end
 
-if variant ~= nil then
+if variant ~= "" then
 	vim.cmd.colorscheme(theme .. "-" .. variant)
 	return
 end
