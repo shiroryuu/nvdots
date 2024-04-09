@@ -35,6 +35,8 @@ local options = {
         max_file = { size = 1024 * 100, lines = 10000 },
         highlighturl_enabled = true,
         icons_enabled = true,
+        theme_name = "gruvbox",
+        theme_variant = "",
 
         -- Disable
         loaded_gzip = 1,
