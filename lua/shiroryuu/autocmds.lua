@@ -1,3 +1,7 @@
+local function augroup(name)
+	return vim.api.nvim_create_augroup("shiroryuu_" .. name, { clear = true })
+end
+
 -- Change Working directory (Messing up with Telescope)
 --[[ vim.api.nvim_create_autocmd("BufEnter", {
   desc = "Change the working directory to the current file",
@@ -8,7 +12,7 @@
 
 vim.api.nvim_create_autocmd("FileType", {
 	desc = "Enable wrap and spell for text like documents",
-	group = vim.api.nvim_create_augroup("auto_spell", { clear = true }),
+	group = augroup("auto_spell"),
 	pattern = { "gitcommit", "markdown", "text", "plaintex" },
 	callback = function()
 		vim.opt_local.wrap = true
@@ -19,7 +23,7 @@ vim.api.nvim_create_autocmd("FileType", {
 -- Highlight Yanks
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking",
-	group = vim.api.nvim_create_augroup("shiroryuu_highlight_yank", { clear = true }),
+	group = augroup("highlight_yank"),
 	callback = function()
 		vim.highlight.on_yank()
 	end,
@@ -27,6 +31,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- close some filetypes with <q>
 vim.api.nvim_create_autocmd("FileType", {
+    group = augroup("close_with_q"),
 	pattern = {
 		"PlenaryTestPopup",
 		"help",
@@ -50,7 +55,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- LspAttach
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("shiroryuu_lspattach", { clear = true }),
+	group = augroup("lsp_attach"),
 	callback = function(event)
 		vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 		local opts = { buffer = event.buf }
@@ -90,4 +95,33 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.lsp.buf.signature_help()
 		end, opts)
 	end,
+})
+
+-- LazyFile and LazyGitFile from (LazyVim and Astro)
+vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile", "BufWritePost" }, {
+	desc = "User events for file detection (LazyFile and LazyGitFile)",
+	group = augroup("file_user_events"),
+	callback = function(event)
+        local utils = require("shiroryuu.utils")
+		if vim.b[event.buf].file_checked then return end
+		vim.b[event.buf].file_checked = true
+		vim.schedule(function()
+			local current_file = vim.api.nvim_buf_get_name(event.buf)
+			if not (current_file == "" or vim.bo[event.buf].buftype == "nofile") then
+				utils.register_user_events("File")
+				local folder = vim.fn.fnamemodify(current_file, ":p:h")
+				if vim.fn.has "win32" == 1 then folder = ('"%s"'):format(folder) end
+				if utils.exec_sys_cmd({ "git", "-C", folder, "rev-parse" }, false) then
+					utils.register_user_events("GitFile")
+					pcall(vim.api.nvim_del_augroup_by_name, "shiroryuu_file_user_events")
+				end
+				vim.schedule(function()
+					if vim.api.nvim_buf_is_valid(event.buf) and vim.bo[event.buf].buflisted then
+						vim.api.nvim_exec_autocmds(event.event,
+							{ buffer = event.buf, data = event.data, modeline = false })
+					end
+				end)
+			end
+		end)
+	end
 })
