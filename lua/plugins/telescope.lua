@@ -23,15 +23,19 @@ return {
         { "<Leader>fh", function() require("telescope.builtin").help_tags() end, mode = "n", desc = "Find Help" },
         { "<Leader>fg", function() require("telescope.builtin").git_files() end, mode = "n", desc = "Find Git Files" },
         { "<Leader>ft", function() require("telescope.builtin").colorscheme({enable_preview = true}) end, mode = "n", desc = "Find Themes" },
-        -- TODO: Change this to fs and FS and use live_grep in fw
-        { "<Leader>fw", function()
+        { "<Leader>fw", function() require("telescope.builtin").live_grep() end, mode = "n", desc = "Find Word" },
+        { "<Leader>fW", function()
+            require("telescope.builtin").live_grep({
+            additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end, })
+            end, mode = "n", desc = "Find Word in all files" },
+        { "<Leader>fs", function()
 			local word = vim.fn.expand("<cword>")
             require("telescope.builtin").grep_string({ search = word})
-        end, mode = "n", desc = "Find Word" },
-        { "<Leader>fW", function()
+        end, mode = "n", desc = "Search Word" },
+        { "<Leader>fS", function()
 			local word = vim.fn.expand("<cWORD>")
             require("telescope.builtin").grep_string({ search = word})
-        end, mode = "n", desc = "Find Word" },
+        end, mode = "n", desc = "Search String" },
         -- Git
         { "<Leader>gb", function() require("telescope.builtin").git_branches() end, mode = "n", desc = "Git Branches" },
         { "<Leader>gc", function() require("telescope.builtin").git_commits() end, mode = "n", desc = "Git Commits (Repo)" },
