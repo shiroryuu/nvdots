@@ -48,7 +48,7 @@ return {
 				end,
 			},
 		})
-		local cmp_select = { behaviour = cmp.SelectBehaviour.Select }
+		-- local cmp_select = { behaviour = cmp.SelectBehaviour.Select }
 		cmp.setup({
 			snippet = {
 				expand = function(args)
