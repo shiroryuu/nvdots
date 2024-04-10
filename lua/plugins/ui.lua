@@ -17,23 +17,24 @@ return {
             -- refer to the configuration section below
         }
     },
-	{
-		"folke/zen-mode.nvim",
-		dependencies = { "folke/twilight.nvim" },
-		config = function()
-			vim.keymap.set("n", "<Leader>tz", function()
-				require("zen-mode").setup({
-					window = {
-						backdrop = 1,
-						width = 120,
-						height = 1,
-						options = {
-							signcolumn = "no",
-							relativenumber = false,
-						},
-					},
-				})
-			end, { desc = "Toggle Zen mode" })
-		end,
-	},
+    {
+        "folke/zen-mode.nvim",
+        dependencies = { "folke/twilight.nvim" },
+        keys = {
+            { "<Leader>tz", "<Cmd>ZenMode<CR>", { desc = "Toggle Zen mode" } }
+        },
+        config = function()
+            require("zen-mode").setup({
+                window = {
+                    backdrop = 1,
+                    width = 120,
+                    height = 1,
+                    options = {
+                        signcolumn = "no",
+                        relativenumber = false,
+                    },
+                },
+            })
+        end,
+    },
 }

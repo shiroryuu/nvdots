@@ -21,6 +21,7 @@ local opts = {
    }
 }
 
+-- TODO: turn off change notify 
 require("lazy").setup("plugins", opts)
 
 --require("lazy").setup("lazy", {
