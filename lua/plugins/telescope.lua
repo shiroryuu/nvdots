@@ -1,4 +1,3 @@
--- TODO: Add scroll binding in Telescope
 return {
 	"nvim-telescope/telescope.nvim",
 	tag = "0.1.6",
@@ -42,8 +41,25 @@ return {
         { "<Leader>gC", function() require("telescope.builtin").git_bcommits() end, mode = "n", desc = "Git Commits (Current File)" },
         { "<Leader>gt", function() require("telescope.builtin").git_status() end, mode = "n", desc = "Git Status" },
     },
-    -- TODO: Add opts in future
-	config = function()
-		require("telescope").setup({})
+    opts = function()
+        local actions = require("telescope.actions")
+        return {
+            defaults = {
+                mappings = {
+                    i = {
+                        ["<c-n>"] = actions.cycle_history_next,
+                        ["<c-p>"] = actions.cycle_history_prev,
+                        ["<c-j>"] = actions.move_selection_next,
+                        ["<c-k>"] = actions.move_selection_prev,
+                    },
+                    n = {
+                        q = actions.close
+                    }
+                },
+            },
+        }
+    end,
+	config = function(_, opts)
+		require("telescope").setup(opts)
 	end,
 }
