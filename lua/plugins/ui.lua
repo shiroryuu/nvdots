@@ -23,18 +23,19 @@ return {
         keys = {
             { "<Leader>tz", "<Cmd>ZenMode<CR>", { desc = "Toggle Zen mode" } }
         },
-        config = function()
-            require("zen-mode").setup({
-                window = {
-                    backdrop = 1,
-                    width = 120,
-                    height = 1,
-                    options = {
-                        signcolumn = "no",
-                        relativenumber = false,
-                    },
+        opts = {
+            window = {
+                backdrop = 1,
+                width = 120,
+                height = 1,
+                options = {
+                    signcolumn = "no",
+                    relativenumber = false,
                 },
-            })
+            },
+        },
+        config = function(_, opts)
+            require("zen-mode").setup(opts)
         end,
     },
 }
