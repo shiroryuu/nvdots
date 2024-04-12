@@ -53,47 +53,53 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+-- TODO: Move this to separate mod
 -- LspAttach
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = augroup("lsp_attach"),
 	callback = function(event)
 		vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-		local opts = { buffer = event.buf }
-		vim.keymap.set("n", "gd", function()
-			vim.lsp.buf.definition()
-		end, { desc = "Show definition of current symbol", opts })
-		vim.keymap.set("n", "gD", function()
-			vim.lsp.buf.declaration()
-		end, { desc = "Show declaration of current symbol", opts })
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "References of current symbol", opts })
-		vim.keymap.set({ "n", "v" }, "<Leader>la", vim.lsp.buf.code_action, { desc = "LSP Code action", opts })
-		vim.keymap.set("n", "<Leader>lD", vim.lsp.buf.type_definition, { desc = "Type Definition", opts })
-		vim.keymap.set("n", "<Leader>lr", vim.lsp.buf.rename, { desc = "Rename", opts })
-		vim.keymap.set("n", "<Leader>lf", function()
-			vim.lsp.buf.format({ async = true })
-		end, { desc = "Format buffer", opts })
-		vim.keymap.set("n", "<space>lwd", vim.lsp.buf.add_workspace_folder, { desc = "Add Workspace folder", opts })
-		vim.keymap.set(
-			"n",
-			"<space>lwr",
-			vim.lsp.buf.remove_workspace_folder,
-			{ desc = "Remove Workspace folder", opts }
-		)
-		vim.keymap.set("n", "<Leader>lw", function()
-			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		end, { desc = "List Workspace Folders", opts })
 
-		vim.keymap.set("n", "[d", function()
-			vim.diagnostic.goto_next()
-		end, opts)
-		vim.keymap.set("n", "]d", function()
-			vim.diagnostic.goto_prev()
-		end, opts)
-		vim.keymap.set("i", "<C-h>", function()
-			vim.lsp.buf.signature_help()
-		end, opts)
+        local function map(mode, lhs, rhs, desc)
+            vim.keymap.set(mode, lhs, rhs, { buffer = event.buf , desc = desc })
+        end
+
+        map("n", "gd", function()
+            vim.lsp.buf.definition()
+            end, "Show definition of current symbol")
+        map("n", "gD", function()
+            vim.lsp.buf.declaration()
+            end, "Show declaration of current symbol")
+        map("n", "K", vim.lsp.buf.hover)
+        map("n", "gi", vim.lsp.buf.implementation)
+        map("n", "gr", vim.lsp.buf.references, "References of current symbol")
+        map({ "n", "v" }, "<Leader>la", vim.lsp.buf.code_action, "LSP Code action")
+        map("n", "<Leader>lD", vim.lsp.buf.type_definition, "Type Definition")
+        map("n", "<Leader>lr", vim.lsp.buf.rename, "Rename")
+        map("n", "<Leader>lf", function()
+            vim.lsp.buf.format({ async = true })
+            end, "Format buffer")
+        map("n", "<Leader>li", "<cmd>LspInfo<CR>", "Lsp info")
+        map("n", "<Leader>lwd", vim.lsp.buf.add_workspace_folder, "Add Workspace folder")
+        map(
+            "n",
+            "<Leader>lwr",
+            vim.lsp.buf.remove_workspace_folder,
+            "Remove Workspace folder"
+        )
+        map("n", "<Leader>lw", function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+            end, "List Workspace Folders")
+
+        map("n", "[d", function()
+            vim.diagnostic.goto_next()
+        end)
+        map("n", "]d", function()
+            vim.diagnostic.goto_prev()
+        end)
+        map("i", "<C-h>", function()
+            vim.lsp.buf.signature_help()
+        end)
 	end,
 })
 
