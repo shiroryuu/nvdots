@@ -13,12 +13,12 @@ vim.opt.rtp:prepend(lazypath)
 
 local opts = {
 	defaults = { lazy = true },
-    lockfile = vim.fn.stdpath "data" .. "/lazy-lock.json",
-    performance = {
-        rtp = {
-            disabled_plugins = { "tohtml", "gzip", "zipPlugin", "netrwPlugin", "tarPlugin"},
-        },
-   }
+    lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
+    change_detection = {
+        -- automatically check for config file changes and reload the ui
+        enabled = true,
+        notify = false, -- get a notification when changes are found
+    },
 }
 
 require("lazy").setup("shiroryuu.plugins", opts)
