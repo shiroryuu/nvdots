@@ -21,20 +21,4 @@ local opts = {
    }
 }
 
--- TODO: turn off change notify 
-require("lazy").setup("plugins", opts)
-
---require("lazy").setup("lazy", {
---  spec = spec,
---  defaults = { lazy = true },
---  git = { filter = modern_git },
---  install = { colorscheme = colorscheme },
---  performance = {
---    rtp = {
---      paths = astronvim.supported_configs,
---      disabled_plugins = { "tohtml", "gzip", "zipPlugin", "netrwPlugin", "tarPlugin" },
---    },
---  },
---  lockfile = vim.fn.stdpath "data" .. "/lazy-lock.json",
---})
-
+require("lazy").setup("shiroryuu.plugins", opts)
