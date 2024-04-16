@@ -53,8 +53,9 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
--- TODO: Move this to separate mod
+-- TODO: Delete This
 -- LspAttach
+--[[
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = augroup("lsp_attach"),
 	callback = function(event)
@@ -102,6 +103,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end)
 	end,
 })
+]]
 
 -- LazyFile and LazyGitFile from (LazyVim and Astro)
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile", "BufWritePost" }, {

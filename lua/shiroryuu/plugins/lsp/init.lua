@@ -110,9 +110,9 @@ return {
 
             -- TODO: Config formatter
 
-            -- set keykmaps
+            -- set keymaps
             lsp.on_attach(function(client, buffer)
-                require("shiroryuu.plugins.lsp.keykmaps").on_attach(client, buffer)
+                require("shiroryuu.plugins.lsp.keymaps").on_attach(client, buffer)
             end)
 
             -- diagnostics signs

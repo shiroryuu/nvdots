@@ -30,14 +30,25 @@ function M.get_keys()
     return M.keys
 end
 
+function M.has(buffer, method)
+  method = method:find("/") and method or "textDocument/" .. method
+  local clients = require("shiroryuu.utils.lsp").get_clients({ bufnr = buffer })
+  for _, client in ipairs(clients) do
+    if client.supports_method(method) then
+      return true
+    end
+  end
+  return false
+end
+
 function M.resove(buffer)
     local keys = require("lazy.core.handler.keys")
     if not keys.resolve then
         return {}
     end
-    local specs = M.get()
+    local specs = M.get_keys()
     -- TODO: refactor this
-    local opts = require("shiroryuu.utils.plugins").opts("nvim-lspconfig")
+    local opts = require("shiroryuu.utils.plugin").get_opts("nvim-lspconfig")
     local clients = require("shiroryuu.utils.lsp").get_clients({ bufnr = buffer })
     for _,client in ipairs(clients) do
         local maps = opts.servers[client.name] and opts.servers[client.name].keys or {}
@@ -50,7 +61,7 @@ function M.on_attach(_, buffer)
     local keys = require("lazy.core.handler.keys")
     local keymaps = M.resolve(buffer)
 
-    for _, key in ipairs(keymaps) do
+    for _, key in pairs(keymaps) do
         if not key.has or M.has(buffer, key.has) then
             local opts = keys.opts(key)
             opts.has = nil
