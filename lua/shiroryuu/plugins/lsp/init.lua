@@ -29,7 +29,7 @@ return {
                     spacing = 4,
                     source = "if_many",
                     prefix = "●",
-                }
+                },
                 severity_sort = true,
                 signs = {
                     text = {
@@ -106,11 +106,12 @@ return {
         },
         config = function(_, opts)
             local utils = require("shiroryuu.utils")
+            local lsp = require("shiroryuu.utils.lsp")
 
             -- TODO: Config formatter
 
             -- set keykmaps
-            utils.lsp.on_attach(function(client, buffer)
+            lsp.on_attach(function(client, buffer)
                 require("shiroryuu.plugins.lsp.keykmaps").on_attach(client, buffer)
             end)
 
@@ -125,7 +126,7 @@ return {
 
             -- inlay hints
             if opts.inlay_hints.enabled then
-                utils.lsp.on_attach(function(client, buffer)
+                lsp.on_attach(function(client, buffer)
                     if client.supports_method("textDocument/inlayHint") then
                         -- utils.toggle.inlay_hints(buffer, true)
                     end

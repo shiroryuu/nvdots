@@ -36,8 +36,9 @@ function M.resove(buffer)
         return {}
     end
     local specs = M.get()
-    local opts = utils.plugins.opts("nvim-lspconfig")
-    local clients = utils.lsp.get_clients({ bufnr = buffer })
+    -- TODO: refactor this
+    local opts = require("shiroryuu.utils.plugins").opts("nvim-lspconfig")
+    local clients = require("shiroryuu.utils.lsp").get_clients({ bufnr = buffer })
     for _,client in ipairs(clients) do
         local maps = opts.servers[client.name] and opts.servers[client.name].keys or {}
         vim.list_extend(specs, maps)

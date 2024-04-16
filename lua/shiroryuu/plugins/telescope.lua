@@ -51,7 +51,7 @@ return {
                         ["<c-n>"] = actions.cycle_history_next,
                         ["<c-p>"] = actions.cycle_history_prev,
                         ["<c-j>"] = actions.move_selection_next,
-                        ["<c-k>"] = actions.move_selection_prev,
+                        ["<c-k>"] = actions.move_selection_previous,
                     },
                     n = {
                         q = actions.close

@@ -2,7 +2,7 @@ local M = {}
 
 function M.is_available(plugin)
 	local lazy_config_ok, lazy_config = pcall(require, "lazy.core.config")
-	return lazy_config_ok and lazy_config.spec.plugin[plugin] ~= nil
+	return lazy_config_ok and lazy_config.spec.plugins[plugin] ~= nil
 end
 
 function M.get_opts(plugin_name)
