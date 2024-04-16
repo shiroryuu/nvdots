@@ -7,7 +7,7 @@ end
 
 function M.get_opts(plugin_name)
     local lazy_plugins_ok, lazy_plugins = pcall(require, "lazy.core.config")
-    if lazy_config_ok then
+    if lazy_plugins_ok then
         local plugin = lazy_plugins.plugins[plugin_name]
         if not plugin then return {} end
         return require("lazy.core.plugin").values(plugin, "opts", false)

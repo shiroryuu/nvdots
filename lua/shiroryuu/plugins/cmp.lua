@@ -4,22 +4,32 @@ return {
         event = "InsertEnter",
         version = false,  -- its been 2 years since the last tagged release
         dependencies = {
-            "hrsh7th/nvim-cmp-lsp",
-            "hrsh7th/nvim-buffer",
-            "hrsh7th/nvim-path",
-            "hrsh7th/nvim-cmdline",
+            "hrsh7th/cmp-nvim-lsp",
+            "hrsh7th/cmp-buffer",
+            "hrsh7th/cmp-path",
+            "hrsh7th/cmp-cmdline",
+            "L3MON4D3/LuaSnip",
+            "saadparwaiz1/cmp_luasnip",
         },
         opts = function()
+            local lspformat = function()
+                if require("shiroryuu.utils.plugin").is_available("lspkind.nvim") then
+                    return require("lspkind").cmp_format(require("shiroryuu.utils.plugin").get_opts("lspkind.nvim"))
+                end
+            end
             local cmp = require("cmp")
-            local defaults = cmp.config.default()
-            local cmp_lsp = require("nvim_cmp_lsp")
+            local defaults = require("cmp.config.default")()
             local cmp_select = { behavior = cmp.SelectBehavior.Select }
             return  {
+                formatting = {
+                    format = lspformat(),
+                },
                 snippet = {
                     -- REQUIRED - you must specify a snippet engine
                     expand = function(args)
                         require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
                         -- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
+                    end,
                 },
                 mapping = cmp.mapping.preset.insert({
                     ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
@@ -75,4 +85,4 @@ return {
             require("lspkind").init(opts)
         end
     }
-},
+}

@@ -41,7 +41,7 @@ function M.has(buffer, method)
   return false
 end
 
-function M.resove(buffer)
+function M.resolve(buffer)
     local keys = require("lazy.core.handler.keys")
     if not keys.resolve then
         return {}
