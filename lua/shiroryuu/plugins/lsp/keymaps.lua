@@ -54,7 +54,7 @@ function M.resolve(buffer)
         local maps = opts.servers[client.name] and opts.servers[client.name].keys or {}
         vim.list_extend(specs, maps)
     end
-    return keys.resolve(spec)
+    return keys.resolve(specs)
 end
 
 function M.on_attach(_, buffer)
