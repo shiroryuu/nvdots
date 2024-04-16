@@ -1,0 +1,187 @@
+return {
+    { 
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
+            { "folke/neodev.nvim", opts = {}, },
+            { 
+                "williamboman/mason-lspconfig.nvim",
+                dependencies = { "williamboman/mason.nvim" },
+                cmd = { "LspInstall", "LspUninstall" },
+                init = function(plugin)
+                    require("shiroryuu.utils.plugin").on_load("mason.nvim", plugin.name)
+                end,
+                -- TODO: mason-lspconfig setup
+                opts = {},
+            },
+            "j-hui/fidget.nvim",
+        },
+        event = "User LazyFile",
+        cmd = function(_, cmds)
+            if require("shiroryuu.utils.plugin").is_available("neoconf.nvim") then table.insert(cmds, "Neoconf") end
+            vim.list_extend(cmds, { "LspInfo", "LspLog", "LspStart" })
+        end,
+        opts = {
+            diagnostics = {
+                underline = true,
+                update_in_insert = false,
+                virtual_text = {
+                    spacing = 4,
+                    source = "if_many",
+                    prefix = "●",
+                }
+                severity_sort = true,
+                signs = {
+                    text = {
+                        -- TODO: Common Icon module
+                        [vim.diagnostic.severity.ERROR] = "",
+                        [vim.diagnostic.severity.WARN] = "",
+                        [vim.diagnostic.severity.HINT] = "󰌵",
+                        [vim.diagnostic.severity.INFO] = "󰋼",
+                    },
+                },
+            },
+            -- TODO: Use global options to set the value for inlay and codelens like setting 
+            -- up a function in options.lua which checks if nvim >= 10 condn
+
+            -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
+            -- Be aware that you also will need to properly configure your LSP server to
+            -- provide the inlay hints.
+            inlay_hints = {
+                enabled = false,
+            },
+            -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
+            -- Be aware that you also will need to properly configure your LSP server to
+            -- provide the code lenses.
+            codelens = {
+                enabled = false,
+            },
+            -- add any global capabilities here
+            capabilities = {},
+
+            -- TODO: Need to configure this as LazyVim has its own setup....
+            -- options for vim.lsp.buf.format
+            -- `bufnr` and `filter` is handled by the LazyVim formatter,
+            -- but can be also overridden when specified
+            format = {
+                formatting_options = nil,
+                timeout_ms = nil,
+            },
+            -- LSP Server Settings
+            ---@type lspconfig.options
+            servers = {
+                lua_ls = {
+                    -- mason = false, -- set to false if you don't want this server to be installed with mason
+                    -- Use this to add any additional keymaps
+                    -- for specific lsp servers
+                    ---@type LazyKeysSpec[]
+                    -- keys = {},
+                    settings = {
+                        Lua = {
+                            workspace = {
+                                checkThirdParty = false,
+                            },
+                            codeLens = {
+                                enable = true,
+                            },
+                            completion = {
+                                callSnippet = "Replace",
+                            },
+                        },
+                    },
+                },
+            },
+            -- you can do any additional lsp server setup here
+            -- return true if you don't want this server to be setup with lspconfig
+            ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
+            setup = {
+                -- example to setup with typescript.nvim
+                -- tsserver = function(_, opts)
+                --   require("typescript").setup({ server = opts })
+                --   return true
+                -- end,
+                -- Specify * to use this function as a fallback for any server
+                -- ["*"] = function(server, opts) end,
+            },
+        },
+        config = function(_, opts)
+            local utils = require("shiroryuu.utils")
+
+            -- TODO: Config formatter
+
+            -- set keykmaps
+            utils.lsp.on_attach(function(client, buffer)
+                require("shiroryuu.plugins.lsp.keykmaps").on_attach(client, buffer)
+            end)
+
+            -- diagnostics signs
+            if vim.fn.has("nvim-0.10.0") == 0 then
+                for severity, icon in pairs(opts.diagnostics.signs.text) do
+                    local name = vim.diagnostic.severity[severity]:lower():gsub("^%l", string.upper)
+                    name = "DiagnosticSign" .. name
+                    vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+                end
+            end
+
+            -- inlay hints
+            if opts.inlay_hints.enabled then
+                utils.lsp.on_attach(function(client, buffer)
+                    if client.supports_method("textDocument/inlayHint") then
+                        -- utils.toggle.inlay_hints(buffer, true)
+                    end
+                end)
+            end
+
+            vim.diagnostic.config(vim.deepcopy(opts.diagnostic))
+
+            local servers = opts.servers
+            local has_cmp, cmp_lsp = pcall(require,"cmp_nvim_lsp")
+            local capabilities = vim.tbl_deep_extend(
+                "force",
+                {},
+                vim.lsp.protocol.make_client_capabilities(),
+                has_cmp and cmp_lsp.default_capabilities() or {},
+                opts.capabilities or {}
+            )
+
+            local function setup(server)
+                local server_opts = vim.tbl_deep_extend("force", {
+                    capabilities = vim.deepcopy(capabilities),
+                }, servers[server] or {} )
+
+                if opts.setup[server] then
+                    if opts.setup[server](server, server_opts) then
+                        return
+                    end
+                elseif opts.setup["*"] then
+                    if opts.setup["*"](server, server_opts) then
+                        return
+                    end
+                end
+                require("lspconfig")[server].setup(server_opts)
+            end
+
+            -- get all the servers that are available through mason-lspconfig
+            local have_mason, mlsp = pcall(require, "mason-lspconfig")
+            local all_mslp_servers = {}
+            if have_mason then
+                -- TODO: need to check
+                all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+            end
+
+            local ensure_installed = {}
+            for server, server_opts in ipairs(servers) do
+                if server_opts then
+                    server_opts = server_opts == true and {} or server_opts
+                    if server_opts.enabled ~= false then
+                        ensure_installed[#ensure_installed + 1] = server
+                    end
+                end
+            end
+
+            if have_mason then
+                mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
+            end
+        end
+    },
+}
