@@ -23,4 +23,9 @@ function M.exec_sys_cmd(cmd, show_error)
 	return success and assert(result):gsub("[\27\155][][()#;?%d]*[A-PRZcf-ntqry=><~]", "") or nil
 end
 
+function M.toggle_background()
+    vim.go.background = vim.go.background == "light" and "dark" or "light"
+end
+
+return M
 return M

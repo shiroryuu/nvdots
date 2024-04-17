@@ -17,6 +17,13 @@ local map = vim.keymap.set
 --      t = { desc = get_icon("Terminal", 1, true) .. "Terminal" },
 --    }
 
+
+-- Toggleable UIs
+map("n", "<Leader>tb", function()
+	local utils = require("shiroryuu.utils")
+	utils.toggle_background()
+end, { desc = "Toggle Theme background (Dark/Light)" })
+
 -- Normal Mode
 map("n", "<Leader>e", "<Cmd>Neotree toggle<CR>", { desc = "Explorer toggle" })
 map("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
@@ -31,7 +38,7 @@ map("v", "J", ":m '>+1<CR>gv=gv")
 map("v", "K", ":m '<-2<CR>gv=gv")
 
 -- cursor wont move when using J
-map("n", "J", "mzj`z")
+map("n", "J", "mzJ`z")
 
 -- Cursor at the center of page while using C-d or C-u
 map("n", "<C-d>", "<C-d>zz")
