@@ -18,6 +18,7 @@ return {
                 end
             end, mode = {"i","n"}, { desc = "List all open buffers" } },
             -- Find
+            -- TODO: change to sf [S]earch [F]iles (Faster keypress...)
             { "<Leader>ff", function() builtin.find_files() end, mode = "n", desc = "Find Files" },
             { "<Leader>fh", function() builtin.help_tags() end, mode = "n", desc = "Find Help" },
             { "<Leader>fg", function() builtin.git_files() end, mode = "n", desc = "Find Git Files" },

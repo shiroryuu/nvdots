@@ -15,6 +15,8 @@ return {
     opts = function(_, opts)
         local null_ls = require("null-ls")
         opts.sources = vim.list_extend(opts.sources or {}, {
+            -- TODO: Add Ansible diagnostics
+            --null_ls.builtins.diagnostics.ansiblelint,
             null_ls.builtins.formatting.yamlfix,
             null_ls.builtins.formatting.stylua,
             null_ls.builtins.formatting.shfmt,
