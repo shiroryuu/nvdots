@@ -12,6 +12,7 @@ return {
             "saadparwaiz1/cmp_luasnip",
         },
         opts = function()
+            -- TODO: Add custom icons and remove LSPKind
             local lspformat = function()
                 if require("shiroryuu.utils.plugin").is_available("lspkind.nvim") then
                     return require("lspkind").cmp_format(require("shiroryuu.utils.plugin").get_opts("lspkind.nvim"))

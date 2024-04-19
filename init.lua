@@ -10,5 +10,5 @@ for _, source in ipairs({
 		vim.api.nvim_err_write("Error! Failed to load " .. source .. "\n\n" .. fault)
 	end
 end
-
+-- TODO: Find a way to call utils (a global var ?)
 -- TODO: Load polish

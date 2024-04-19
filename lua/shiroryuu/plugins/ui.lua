@@ -8,6 +8,7 @@ return {
 		end,
 		opts = {},
 	},
+    -- TODO: Add REFR or REFS
     {
         "folke/todo-comments.nvim",
         event = "User LazyFile",

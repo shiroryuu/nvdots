@@ -22,6 +22,7 @@ return {
             { "<Leader>ff", function() builtin.find_files() end, mode = "n", desc = "Find Files" },
             { "<Leader>fh", function() builtin.help_tags() end, mode = "n", desc = "Find Help" },
             { "<Leader>fg", function() builtin.git_files() end, mode = "n", desc = "Find Git Files" },
+            -- TODO: Load all the themes before launching the picker.
             { "<Leader>ft", function() builtin.colorscheme({enable_preview = true}) end, mode = "n", desc = "Find Themes" },
             { "<Leader>fw", function() builtin.live_grep() end, mode = "n", desc = "Find Word" },
             { "<Leader>fW", function()
