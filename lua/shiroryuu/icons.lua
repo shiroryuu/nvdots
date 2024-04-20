@@ -1,13 +1,20 @@
 return {
     General = {
+        Close = "󰅙",
         Dap = "",
         Dots = "󰇘",
         Debugger = "",
         Diagnostics = "󰒡",
+        Files = "",
         Git = "",
         LSP = "",
         Package = "󰏖",
         Search = "",
+        Spellcheck = "󰓆",
+        Tab = "󰓩",
+        Toggles = "",
+        Terminal = "",
+        Window = "",
     },
     Dap = {
         Stopped             = "󰁕",

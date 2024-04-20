@@ -2,11 +2,28 @@ return {
 	{
 		"folke/which-key.nvim",
 		event = "VeryLazy",
-		init = function()
-			vim.o.timeout = true
-			vim.o.timeoutlen = 500
-		end,
-		opts = {},
+        opts = function()
+            local get_icon = require("shiroryuu.utils.icon").get_unicon
+            return{
+                plugins = { spelling = true },
+                defaults = {
+                    mode = { "n", "v" },
+                    ["g"] = { name = "+goto" },
+                    ["]"] = { name = "+next" },
+                    ["["] = { name = "+prev" },
+                    ["<M-Tab>"] = { get_icon("General", "Files", 1) .. "Open Buffers" },
+                    ["<Leader>f"] = { get_icon("General", "Search", 1) .. "Find" },
+                    ["<Leader>g"] = { get_icon("General", "Git", 1) .. "Git" },
+                    ["<Leader>l"] = { get_icon("General", "LSP", 1) .. "LSP" },
+                    ["<Leader>t"] = { get_icon("General", "Toggles", 2) .. "Toggles" },
+                },
+            }
+        end,
+        config = function(_, opts)
+            local wk = require("which-key")
+            wk.setup(opts)
+            wk.register(opts.defaults)
+        end,
 	},
     -- TODO: Add REFR or REFS
     {
