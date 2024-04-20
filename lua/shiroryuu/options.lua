@@ -76,3 +76,9 @@ for scope, table in pairs(options) do
         vim[scope][setting] = value
     end
 end
+
+-- load icons if enabled
+if vim.g.icons_enabled ~= false then
+    local icons = require("shiroryuu.utils.icon")
+    icons.init()
+end
