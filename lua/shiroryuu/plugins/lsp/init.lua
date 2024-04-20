@@ -21,89 +21,91 @@ return {
             if require("shiroryuu.utils.plugin").is_available("neoconf.nvim") then table.insert(cmds, "Neoconf") end
             vim.list_extend(cmds, { "LspInfo", "LspLog", "LspStart" })
         end,
-        opts = {
-            diagnostics = {
-                underline = true,
-                update_in_insert = false,
-                virtual_text = {
-                    spacing = 4,
-                    source = "if_many",
-                    prefix = "●",
-                },
-                severity_sort = true,
-                signs = {
-                    text = {
-                        -- TODO: Common Icon module
-                        [vim.diagnostic.severity.ERROR] = "",
-                        [vim.diagnostic.severity.WARN] = "",
-                        [vim.diagnostic.severity.HINT] = "󰌵",
-                        [vim.diagnostic.severity.INFO] = "󰋼",
+        opts = function()
+            local lsp_icons = require("shiroryuu.utils.icon").get_icons("Diagnostics", 1)
+            return {
+                diagnostics = {
+                    underline = true,
+                    update_in_insert = false,
+                    virtual_text = {
+                        spacing = 4,
+                        source = "if_many",
+                        prefix = "●",
+                    },
+                    severity_sort = true,
+                    signs = {
+                        text = {
+                            [vim.diagnostic.severity.ERROR] = lsp_icons.Error,
+                            [vim.diagnostic.severity.WARN] = lsp_icons.Warn,
+                            [vim.diagnostic.severity.HINT] = lsp_icons.Hint,
+                            [vim.diagnostic.severity.INFO] = lsp_icons.Info,
+                        },
                     },
                 },
-            },
-            -- TODO: Use global options to set the value for inlay and codelens like setting 
-            -- up a function in options.lua which checks if nvim >= 10 condn
+                -- TODO: Use global options to set the value for inlay and codelens like setting 
+                -- up a function in options.lua which checks if nvim >= 10 condn
 
-            -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
-            -- Be aware that you also will need to properly configure your LSP server to
-            -- provide the inlay hints.
-            inlay_hints = {
-                enabled = false,
-            },
-            -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
-            -- Be aware that you also will need to properly configure your LSP server to
-            -- provide the code lenses.
-            codelens = {
-                enabled = false,
-            },
-            -- add any global capabilities here
-            capabilities = {},
+                -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
+                -- Be aware that you also will need to properly configure your LSP server to
+                -- provide the inlay hints.
+                inlay_hints = {
+                    enabled = false,
+                },
+                -- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
+                -- Be aware that you also will need to properly configure your LSP server to
+                -- provide the code lenses.
+                codelens = {
+                    enabled = false,
+                },
+                -- add any global capabilities here
+                capabilities = {},
 
-            -- TODO: Need to configure this as LazyVim has its own setup....
-            -- options for vim.lsp.buf.format
-            -- `bufnr` and `filter` is handled by the LazyVim formatter,
-            -- but can be also overridden when specified
-            format = {
-                formatting_options = nil,
-                timeout_ms = nil,
-            },
-            -- LSP Server Settings
-            ---@type lspconfig.options
-            servers = {
-                lua_ls = {
-                    -- mason = false, -- set to false if you don't want this server to be installed with mason
-                    -- Use this to add any additional keymaps
-                    -- for specific lsp servers
-                    ---@type LazyKeysSpec[]
-                    -- keys = {},
-                    settings = {
-                        Lua = {
-                            workspace = {
-                                checkThirdParty = false,
-                            },
-                            codeLens = {
-                                enable = true,
-                            },
-                            completion = {
-                                callSnippet = "Replace",
+                -- TODO: Need to configure this as LazyVim has its own setup....
+                -- options for vim.lsp.buf.format
+                -- `bufnr` and `filter` is handled by the LazyVim formatter,
+                -- but can be also overridden when specified
+                format = {
+                    formatting_options = nil,
+                    timeout_ms = nil,
+                },
+                -- LSP Server Settings
+                ---@type lspconfig.options
+                servers = {
+                    lua_ls = {
+                        -- mason = false, -- set to false if you don't want this server to be installed with mason
+                        -- Use this to add any additional keymaps
+                        -- for specific lsp servers
+                        ---@type LazyKeysSpec[]
+                        -- keys = {},
+                        settings = {
+                            Lua = {
+                                workspace = {
+                                    checkThirdParty = false,
+                                },
+                                codeLens = {
+                                    enable = true,
+                                },
+                                completion = {
+                                    callSnippet = "Replace",
+                                },
                             },
                         },
                     },
                 },
-            },
-            -- you can do any additional lsp server setup here
-            -- return true if you don't want this server to be setup with lspconfig
-            ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
-            setup = {
-                -- example to setup with typescript.nvim
-                -- tsserver = function(_, opts)
-                --   require("typescript").setup({ server = opts })
-                --   return true
-                -- end,
-                -- Specify * to use this function as a fallback for any server
-                -- ["*"] = function(server, opts) end,
-            },
-        },
+                -- you can do any additional lsp server setup here
+                -- return true if you don't want this server to be setup with lspconfig
+                ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
+                setup = {
+                    -- example to setup with typescript.nvim
+                    -- tsserver = function(_, opts)
+                    --   require("typescript").setup({ server = opts })
+                    --   return true
+                    -- end,
+                    -- Specify * to use this function as a fallback for any server
+                    -- ["*"] = function(server, opts) end,
+                },
+            }
+        end,
         config = function(_, opts)
             local utils = require("shiroryuu.utils")
             local lsp = require("shiroryuu.utils.lsp")
