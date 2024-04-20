@@ -18,12 +18,18 @@ return {
                     return require("lspkind").cmp_format(require("shiroryuu.utils.plugin").get_opts("lspkind.nvim"))
                 end
             end
+            local cmp_icons = require("shiroryuu.utils.icon").get_icons("Kinds")
             local cmp = require("cmp")
             local defaults = require("cmp.config.default")()
             local cmp_select = { behavior = cmp.SelectBehavior.Select }
             return  {
                 formatting = {
-                    format = lspformat(),
+                    format = function(_, item)
+                        if cmp_icons[item.kind] then
+                            item.kind = cmp_icons[item.kind] .. " " .. item.kind
+                        end
+                        return item
+                    end,
                 },
                 snippet = {
                     -- REQUIRED - you must specify a snippet engine
