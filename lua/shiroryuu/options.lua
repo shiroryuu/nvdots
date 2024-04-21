@@ -4,6 +4,7 @@ local options = {
         clipboard = "",                                     -- disable system keyboard by default
         confirm = true,                                     -- confirm to save changes before exisiting modified buffer
         colorcolumn = "80",                                 -- a comma-separated list of screen columns that are highlighted with ColorColumn hl-ColorColumn.
+        cmdheight = 0,
         fileencoding = "utf-8",                             -- Default file encoding
         hlsearch = false,                                   -- highlight previous search pattern
         history = 250,                                      -- number of commands tto remember in a history table
@@ -13,10 +14,12 @@ local options = {
         shiftwidth = 4,                                     -- number of spaces to use for each step
         expandtab = true,                                   -- add tabs when tab is pressed in insert mode
         number = true,                                      -- line number
+        preserveindent = true, -- preserve indent structure as much as possible
         relativenumber = true,                              -- relative LN
         scrolloff = 8,                                      -- Minimal number of screen lines to keep above and below the cursor.
-        sidescrolloff = 8,                                  -- number of columns to keep around the cursor if 'nowrap' is set.
+        showmode = false,
         smartindent = true,                                 -- Do smart autoindenting when starting a new line.
+        sidescrolloff = 8,                                  -- number of columns to keep around the cursor if 'nowrap' is set.
         signcolumn = "yes",                                 -- Always show sign column
         swapfile = false,                                   -- Disable creation of swap file
         termguicolors = true,                               -- 24bit color support in TUI
@@ -24,6 +27,7 @@ local options = {
         title = true,                                       -- set terminal title to filename and path
         undodir = os.getenv("XDG_STATE_HOME") .. "/nvim/undodir", -- List of directory names for undo files, separated with commas
         undofile = true,                                    -- When on, Vim automatically saves undo history to an undo file
+        undolevels = 10000,
         updatetime = 300,                                   -- length of time to wait before triggering the plugin
         virtualedit = "block",                              -- allow going past end of line in visual block mode
         wrap = false,                                       -- disable word wrap
@@ -67,8 +71,23 @@ if vim.fn.has("nvim-0.10") == 1 then
     vim.opt.smoothscroll = true
 end
 
+-- NOTE: Not using Clipboard by default (as a note)
+--[[ 
+if not vim.env.SSH_TTY then
+    -- only set clipboard if not in ssh, to make sure the OSC 52
+    -- integration works automatically. Requires Neovim >= 0.10.0
+    vim.opt.clipboard = "unnamedplus" -- Sync with system clipboard
+end
+--]]
+
 for scope, table in pairs(options) do
     for setting, value in pairs(table) do
         vim[scope][setting] = value
     end
+end
+
+-- load icons if enabled
+if vim.g.icons_enabled ~= false then
+    local icons = require("shiroryuu.utils.icon")
+    icons.init()
 end

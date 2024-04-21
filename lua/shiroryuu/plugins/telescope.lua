@@ -18,9 +18,11 @@ return {
                 end
             end, mode = {"i","n"}, { desc = "List all open buffers" } },
             -- Find
+            -- TODO: change to sf [S]earch [F]iles (Faster keypress...)
             { "<Leader>ff", function() builtin.find_files() end, mode = "n", desc = "Find Files" },
             { "<Leader>fh", function() builtin.help_tags() end, mode = "n", desc = "Find Help" },
             { "<Leader>fg", function() builtin.git_files() end, mode = "n", desc = "Find Git Files" },
+            -- TODO: Load all the themes before launching the picker.
             { "<Leader>ft", function() builtin.colorscheme({enable_preview = true}) end, mode = "n", desc = "Find Themes" },
             { "<Leader>fw", function() builtin.live_grep() end, mode = "n", desc = "Find Word" },
             { "<Leader>fW", function()
@@ -40,6 +42,8 @@ return {
             { "<Leader>gc", function() builtin.git_commits() end, mode = "n", desc = "Git Commits (Repo)" },
             { "<Leader>gC", function() builtin.git_bcommits() end, mode = "n", desc = "Git Commits (Current File)" },
             { "<Leader>gt", function() builtin.git_status() end, mode = "n", desc = "Git Status" },
+            -- TODO: Add current buffer fuzzy finder
+            -- TODO: Add telescope integration with trouble 
         }
     end,
     opts = function()
