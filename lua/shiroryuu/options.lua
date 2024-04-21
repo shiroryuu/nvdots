@@ -71,6 +71,15 @@ if vim.fn.has("nvim-0.10") == 1 then
     vim.opt.smoothscroll = true
 end
 
+-- NOTE: Not using Clipboard by default (as a note)
+--[[ 
+if not vim.env.SSH_TTY then
+    -- only set clipboard if not in ssh, to make sure the OSC 52
+    -- integration works automatically. Requires Neovim >= 0.10.0
+    vim.opt.clipboard = "unnamedplus" -- Sync with system clipboard
+end
+--]]
+
 for scope, table in pairs(options) do
     for setting, value in pairs(table) do
         vim[scope][setting] = value
