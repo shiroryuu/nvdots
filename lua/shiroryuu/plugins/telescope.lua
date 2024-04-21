@@ -42,6 +42,8 @@ return {
             { "<Leader>gc", function() builtin.git_commits() end, mode = "n", desc = "Git Commits (Repo)" },
             { "<Leader>gC", function() builtin.git_bcommits() end, mode = "n", desc = "Git Commits (Current File)" },
             { "<Leader>gt", function() builtin.git_status() end, mode = "n", desc = "Git Status" },
+            -- TODO: Add current buffer fuzzy finder
+            -- TODO: Add telescope integration with trouble 
         }
     end,
     opts = function()
