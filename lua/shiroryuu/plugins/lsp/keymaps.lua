@@ -8,21 +8,35 @@ function M.get_keys()
     if M.keys then
         return M.keys
     end
-    -- set keymaps
     M.keys = {
-        { "gd", function() vim.lsp.buf.definition() end, mode = "n", desc = "Show definition of current symbol" },
-        { "gD", function() vim.lsp.buf.declaration() end, mode = "n", desc ="Show declaration of current symbol" },
-        { "K", vim.lsp.buf.hover, mode = "n" }, 
-        { "gi", vim.lsp.buf.implementation, mode = "n" },
-        { "gr", vim.lsp.buf.references, mode = "n", desc = "References of current symbol" },
-        { "<Leader>la", vim.lsp.buf.code_action, desc = "LSP Code action", mode = { "n", "v" }, },
-        { "<Leader>lD", vim.lsp.buf.type_definition, mode = "n", desc = "Type Definition" },
-        { "<Leader>lr", vim.lsp.buf.rename, mode = "n", desc = "Rename" },
-        { "<Leader>lf", function() vim.lsp.buf.format({ async = true }) end, mode = "n", desc ="Format buffer" },
-        { "<Leader>li", "<cmd>LspInfo<CR>", mode = "n", desc = "Lsp info" },
-        { "<Leader>lwd", vim.lsp.buf.add_workspace_folder, mode = "n", desc = "Add Workspace folder" },
-        { "<Leader>lwr", vim.lsp.buf.remove_workspace_folder, mode = "n", desc = "Remove Workspace folder" },
-        { "<Leader>lw", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, mode = "n", desc = "List Workspace Folders" },
+        { "gd", function() vim.lsp.buf.definition() end, mode = "n", desc = "Goto Definition" },
+        { "gD", function() vim.lsp.buf.declaration() end, mode = "n", desc ="Goto Declaration" },
+        { "gi", vim.lsp.buf.implementation, mode = "n", desc = "Goto Implementation"  },
+        { "gK", vim.lsp.buf.signature_help, desc = "Signature Help", has = "signatureHelp" },
+        { "gr", "<cmd>Telescope lsp_references<CR>", mode = "n", desc = "List References of current symbol" },
+        { "gy", vim.lsp.buf.type_definition, mode = "n", desc = "Goto T[y]pe Definition"  },
+        { "K", vim.lsp.buf.hover, mode = "n" , desc = "Hover" }, 
+        { "<Leader>ca", vim.lsp.buf.code_action, desc = "[c]ode [a]ction", mode = { "n", "v" }, },
+        { "<Leader>cA", function()
+            vim.lsp.buf.code_action({
+                context = {
+                    only = {
+                        "source",
+                    },
+                    diagnostics = {},
+                },
+            })
+        end,
+            desc = "[c]ode source [A]ction",
+        },
+        { "<Leader>cc", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" }, has = "codeLens" },
+        { "<Leader>cC", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens" },
+        { "<Leader>cr", vim.lsp.buf.rename, mode = "n", desc = "Rename" },
+        { "<Leader>cf", function() vim.lsp.buf.format({ async = true }) end, mode = "n", desc ="Format buffer" },
+        { "<Leader>cl", "<cmd>LspInfo<CR>", mode = "n", desc = "Lsp info" },
+        { "<Leader>cwd", vim.lsp.buf.add_workspace_folder, mode = "n", desc = "Add Workspace folder" },
+        { "<Leader>cwr", vim.lsp.buf.remove_workspace_folder, mode = "n", desc = "Remove Workspace folder" },
+        { "<Leader>cw<CR>", function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, mode = "n", desc = "List Workspace Folders" },
         { "[d", function() vim.diagnostic.goto_next() end, mode = "n" },
         { "]d", function() vim.diagnostic.goto_prev() end, mode = "n" },
         { "<C-h>", function() vim.lsp.buf.signature_help() end, mode = "i" },

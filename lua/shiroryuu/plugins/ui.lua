@@ -6,16 +6,31 @@ return {
             local get_icon = require("shiroryuu.utils.icon").get_unicon
             return{
                 plugins = { spelling = true },
+                icons = {
+                    group = vim.g.icons_enabled ~= false and "" or "+",
+                },
                 defaults = {
                     mode = { "n", "v" },
                     ["g"] = { name = "+goto" },
+                    ["gs"] = { name = "+surround" },
+                    ["z"] = { name = "+fold" },
                     ["]"] = { name = "+next" },
                     ["["] = { name = "+prev" },
                     ["<M-Tab>"] = { get_icon("General", "Files", 1) .. "Open Buffers" },
+                    ["<Leader>b"] = { get_icon("General", "Window", 1) .. "Buffer" },
+                    ["<Leader>c"] = { get_icon("General", "Code", 1) .. "Code/LSP" },
+                    ["<Leader>d"] = { get_icon("General", "Dap", 1) .. "Debugger" },
+                    ["<Leader>e"] = { get_icon("General", "Folders", 1) .. "Neotree toggle" },
                     ["<Leader>f"] = { get_icon("General", "Search", 1) .. "Find" },
+                    ["<Leader>h"] = { get_icon("General", "Window", 1) .. "Harpoon" },
                     ["<Leader>g"] = { get_icon("General", "Git", 1) .. "Git" },
-                    ["<Leader>l"] = { get_icon("General", "LSP", 1) .. "LSP" },
+                    ["<Leader>gh"] = { get_icon("Git", "Hunk", 1) .. "Hunk" },
+                    ["<Leader>gg"] = { get_icon("General", "GitAlt", 1) .. "LazyGit" },
+                    ["<Leader>p"] = { get_icon("General", "Arrow", 1) .. "Projects" },
+                    ["<Leader>q"] = { get_icon("General", "Close", 1) .. "Quit" },
                     ["<Leader>t"] = { get_icon("General", "Toggles", 2) .. "Toggles" },
+                    ["<Leader>w"] = { get_icon("General", "Save", 1) .. "Save" },
+                    ["<Leader>x"] = { get_icon("General", "Diagnostics", 1) .. "Diagnostics" },
                 },
             }
         end,
