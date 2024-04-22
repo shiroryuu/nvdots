@@ -57,8 +57,6 @@ return {
         Modified = "",
         ReadOnly = "",
     },
-    -- TODO: Lazyvim kinds version (Directly add to cmp)
-    -- NOTE: https://github.com/LazyVim/LazyVim/blob/bb36f71b77d8e15788a5b62c82a1c9ec7b209e49/lua/lazyvim/plugins/coding.lua#L57
     Kinds = {
         Array         = "",
         Boolean       = "󰨙",
