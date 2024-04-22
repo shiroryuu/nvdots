@@ -31,7 +31,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- close some filetypes with <q>
 vim.api.nvim_create_autocmd("FileType", {
-    group = augroup("close_with_q"),
+	group = augroup("close_with_q"),
 	pattern = {
 		"PlenaryTestPopup",
 		"help",
@@ -110,26 +110,32 @@ vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile", "BufWritePost" }, {
 	desc = "User events for file detection (LazyFile and LazyGitFile)",
 	group = augroup("file_user_events"),
 	callback = function(event)
-        local utils = require("shiroryuu.utils")
-		if vim.b[event.buf].file_checked then return end
+		local utils = require("shiroryuu.utils")
+		if vim.b[event.buf].file_checked then
+			return
+		end
 		vim.b[event.buf].file_checked = true
 		vim.schedule(function()
 			local current_file = vim.api.nvim_buf_get_name(event.buf)
 			if not (current_file == "" or vim.bo[event.buf].buftype == "nofile") then
 				utils.register_user_events("File")
 				local folder = vim.fn.fnamemodify(current_file, ":p:h")
-				if vim.fn.has "win32" == 1 then folder = ('"%s"'):format(folder) end
+				if vim.fn.has("win32") == 1 then
+					folder = ('"%s"'):format(folder)
+				end
 				if utils.exec_sys_cmd({ "git", "-C", folder, "rev-parse" }, false) then
 					utils.register_user_events("GitFile")
 					pcall(vim.api.nvim_del_augroup_by_name, "shiroryuu_file_user_events")
 				end
 				vim.schedule(function()
 					if vim.api.nvim_buf_is_valid(event.buf) and vim.bo[event.buf].buflisted then
-						vim.api.nvim_exec_autocmds(event.event,
-							{ buffer = event.buf, data = event.data, modeline = false })
+						vim.api.nvim_exec_autocmds(
+							event.event,
+							{ buffer = event.buf, data = event.data, modeline = false }
+						)
 					end
 				end)
 			end
 		end)
-	end
+	end,
 })

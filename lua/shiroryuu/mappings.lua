@@ -11,14 +11,16 @@ end, { desc = "Close all buffers" })
 
 -- Diagnostics
 local diagnostic_goto = function(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
-  severity = severity and vim.diagnostic.severity[severity] or nil
-  return function()
-    go({ severity = severity })
-  end
+	local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+	severity = severity and vim.diagnostic.severity[severity] or nil
+	return function()
+		go({ severity = severity })
+	end
 end
 
-map("n", "<Leader>cd", function() vim.diagnostic.open_float() end, { desc = "Hover diagnostics" })
+map("n", "<Leader>cd", function()
+	vim.diagnostic.open_float()
+end, { desc = "Hover diagnostics" })
 map("n", "]d", diagnostic_goto(true), { desc = "Next Diagnostic" })
 map("n", "[d", diagnostic_goto(false), { desc = "Prev Diagnostic" })
 map("n", "]e", diagnostic_goto(true, "ERROR"), { desc = "Next Error" })
@@ -47,7 +49,7 @@ map("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move up" })
 map("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move down" })
 
 -- cursor wont move when using J
-map("n", "J", "mzJ`z", { desc = "Joint Line"})
+map("n", "J", "mzJ`z", { desc = "Joint Line" })
 
 -- Cursor at the center of page while using C-d or C-u
 map("n", "<C-d>", "<C-d>zz", { desc = "Move down half page (cursor centered)" })

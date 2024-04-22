@@ -39,23 +39,22 @@ return {
 						},
 					},
 					follow_current_file = {
-                        enabled = true,
-                        leave_dirs_open = true, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
-                    },
+						enabled = true,
+						leave_dirs_open = true, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+					},
 					hijack_netrw_behavior = "open_default",
 				},
-                event_handlers = {
-                    {
-                        event = "file_opened",
-                        handler = function(file_path)
-                            -- auto close
-                            -- vimc.cmd("Neotree close")
-                            -- OR
-                            require("neo-tree.command").execute({ action = "close" })
-                        end
-                    },
-
-                },
+				event_handlers = {
+					{
+						event = "file_opened",
+						handler = function(file_path)
+							-- auto close
+							-- vimc.cmd("Neotree close")
+							-- OR
+							require("neo-tree.command").execute({ action = "close" })
+						end,
+					},
+				},
 			})
 		end,
 	},
