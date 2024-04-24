@@ -16,9 +16,9 @@ return {
 	event = "User LazyFile",
 	opts = function(_, opts)
 		local null_ls = require("null-ls")
+        opts.root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git")
 		opts.sources = vim.list_extend(opts.sources or {}, {
-			-- TODO: Add Ansible diagnostics
-			--null_ls.builtins.diagnostics.ansiblelint,
+			null_ls.builtins.diagnostics.ansiblelint,
 			null_ls.builtins.formatting.yamlfix,
 			null_ls.builtins.formatting.stylua,
 			null_ls.builtins.formatting.shfmt,
