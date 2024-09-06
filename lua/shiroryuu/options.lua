@@ -91,6 +91,16 @@ if vim.fn.has("nvim-0.9.0") == 1 then
 	vim.opt.foldtext = "v:lua.require'shiroryuu.utils.ui'.foldtext()"
 end
 
+-- HACK: causes freezes on <= 0.9, so only enable on >= 0.10 for now
+if vim.fn.has("nvim-0.10") == 1 then
+	vim.opt.foldmethod = "expr"
+	vim.opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
+	vim.opt.foldtext = ""
+	vim.opt.fillchars = "fold: "
+else
+	vim.opt.foldmethod = "indent"
+end
+
 -- load icons if enabled
 if vim.g.icons_enabled ~= false then
 	local icons = require("shiroryuu.utils.icon")
