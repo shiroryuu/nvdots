@@ -53,6 +53,8 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+-- TODO: Add removing pdf and other build files when exiting vim from *.tex,*.md or README
+
 -- TODO: Delete This
 -- LspAttach
 --[[

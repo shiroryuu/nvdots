@@ -1,5 +1,20 @@
 local map = vim.keymap.set
 
+-- Auto Compile
+map("n", "<Leader>ac", function()
+	local utils = require("shiroryuu.utils")
+    local current_file = vim.api.nvim_buf_get_name(0)
+	-- local folder = vim.fn.fnamemodify(current_file, ":p:h")
+    vim.notify("filename is " .. current_file, "info")
+    utils.exec_sys_cmd("compiler " .. current_file,false)
+    -- print("Filename is " .. current_file)
+
+
+end, { desc = "Autocompile targets (Mostly latex and markdown)" })
+map("n", "<Leader>ao", function()
+    -- TODO: Open compiled outpus
+end, { desc = "Open compile outputs" })
+
 -- Buffer Management
 -- TODO: Add Buffer sorting and pick to close (maybe?)
 map("n", "<Leader>bc", function()
