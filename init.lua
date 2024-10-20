@@ -1,3 +1,5 @@
+-- TODO: Add toggle term (from astronvim)
+-- NOTE: https://github.com/AstroNvim/AstroNvim/blob/cc6dc97f0f059a4ba5dda916ffc137d6609fa0ff/lua/astronvim/plugins/toggleterm.lua#L20
 for _, source in ipairs({
 	"shiroryuu.options",
 	"shiroryuu.autocmds",

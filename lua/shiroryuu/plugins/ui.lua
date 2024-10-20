@@ -41,6 +41,7 @@ return {
 		end,
 	},
 	-- TODO: Add REFR or REFS
+    -- TODO: Add DONE
 	{
 		"folke/todo-comments.nvim",
 		event = "User LazyFile",
