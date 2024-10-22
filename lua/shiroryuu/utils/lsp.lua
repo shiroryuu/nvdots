@@ -14,4 +14,6 @@ function M.on_attach(fn)
 	})
 end
 
+-- TODO: Separate api for on_supports_method
+
 return M

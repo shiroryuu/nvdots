@@ -87,6 +87,7 @@ return {
 		enabled = true,
 		opts = { mode = "cursor", max_lines = 3 },
 		config = function()
+            -- TODO: Rethink all the keymaps
 			local tsc = require("treesitter-context")
 			vim.keymap.set("n", "<Leader>tt", function()
 				tsc.toggle()
