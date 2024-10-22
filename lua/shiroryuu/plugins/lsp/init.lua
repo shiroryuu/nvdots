@@ -14,7 +14,7 @@ return {
 				-- TODO: mason-lspconfig setup
 				opts = {},
 			},
-			"j-hui/fidget.nvim",
+			{ "j-hui/fidget.nvim", opts = {} },
 		},
 		event = "User LazyFile",
 		cmd = function(_, cmds)
