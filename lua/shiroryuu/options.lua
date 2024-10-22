@@ -1,11 +1,23 @@
 local options = {
 	opt = {
+        autowrite = false,
 		backup = false, -- enabling this keeps the backup file made by 'writebackup' after overwriting
 		clipboard = "", -- disable system keyboard by default
 		confirm = true, -- confirm to save changes before exisiting modified buffer
 		colorcolumn = "80", -- a comma-separated list of screen columns that are highlighted with ColorColumn hl-ColorColumn.
 		cmdheight = 0, -- hide command line unless needed
 		fileencoding = "utf-8", -- Default file encoding
+        foldlevel = 99,
+	    foldmethod = "expr",
+	    foldtext = "",
+	    fillchars = {
+            foldopen = "",
+            foldclose = "",
+            fold = " ",
+            foldsep = " ",
+            diff = "╱",
+            eob = " ",
+        },
 		hlsearch = false, -- highlight previous search pattern
 		history = 250, -- number of commands tto remember in a history table
 		incsearch = true, -- While typing a search command, highlight the matches.
@@ -86,18 +98,9 @@ for scope, table in pairs(options) do
 	end
 end
 
-if vim.fn.has("nvim-0.9.0") == 1 then
+if vim.fn.has("nvim-0.10") == 0 then
 	vim.opt.statuscolumn = [[%!v:lua.require'shiroryuu.utils.ui'.statuscolumn()]]
 	vim.opt.foldtext = "v:lua.require'shiroryuu.utils.ui'.foldtext()"
-end
-
--- HACK: causes freezes on <= 0.9, so only enable on >= 0.10 for now
-if vim.fn.has("nvim-0.10") == 1 then
-	vim.opt.foldmethod = "expr"
-	vim.opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
-	vim.opt.foldtext = ""
-	vim.opt.fillchars = "fold: "
-else
 	vim.opt.foldmethod = "indent"
 end
 
