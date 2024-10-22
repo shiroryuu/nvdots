@@ -1,3 +1,4 @@
+-- TODO: Fix XDG_STATE_HOME for non linux systems
 local options = {
 	opt = {
         autowrite = false,
@@ -8,8 +9,6 @@ local options = {
 		cmdheight = 0, -- hide command line unless needed
 		fileencoding = "utf-8", -- Default file encoding
         foldlevel = 99,
-	    foldmethod = "expr",
-	    foldtext = "",
 	    fillchars = {
             foldopen = "",
             foldclose = "",
@@ -18,6 +17,7 @@ local options = {
             diff = "╱",
             eob = " ",
         },
+        formatexpr = "v:lua.require'lazyvim.util'.format.formatexpr()",
 		hlsearch = false, -- highlight previous search pattern
 		history = 250, -- number of commands tto remember in a history table
 		incsearch = true, -- While typing a search command, highlight the matches.
@@ -33,6 +33,7 @@ local options = {
 		smartindent = true, -- Do smart autoindenting when starting a new line.
 		sidescrolloff = 8, -- number of columns to keep around the cursor if 'nowrap' is set.
 		signcolumn = "yes", -- Always show sign column
+	    statuscolumn = [[%!v:lua.require'shiroryuu.utils.ui'.statuscolumn()]],
 		swapfile = false, -- Disable creation of swap file
 		termguicolors = true, -- 24bit color support in TUI
 		timeoutlen = 500, -- which-key timeout len default (1000)
@@ -48,6 +49,7 @@ local options = {
 	g = {
 		mapleader = " ",
 		maplocalleader = ",",
+        clipboard_enable = false,
 		max_file = { size = 1024 * 100, lines = 10000 },
 		highlighturl_enabled = true,
 		icons_enabled = true,
@@ -78,30 +80,20 @@ local options = {
 	},
 }
 
-vim.opt.isfname:append("@-@")
 if vim.fn.has("nvim-0.10") == 1 then
 	vim.opt.smoothscroll = true
+	vim.opt.foldmethod = "expr"
+    vim.opt.foldexpr = "v:lua.require'lazyvim.util'.ui.foldexpr()"
+    vim.opt.foldtext = ""
+else
+	vim.opt.foldtext = "v:lua.require'shiroryuu.utils.ui'.foldtext()"
+	vim.opt.foldmethod = "indent"
 end
-
--- NOTE: Not using Clipboard by default (as a note)
---[[
-if not vim.env.SSH_TTY then
-    -- only set clipboard if not in ssh, to make sure the OSC 52
-    -- integration works automatically. Requires Neovim >= 0.10.0
-    vim.opt.clipboard = "unnamedplus" -- Sync with system clipboard
-end
---]]
 
 for scope, table in pairs(options) do
 	for setting, value in pairs(table) do
 		vim[scope][setting] = value
 	end
-end
-
-if vim.fn.has("nvim-0.10") == 0 then
-	vim.opt.statuscolumn = [[%!v:lua.require'shiroryuu.utils.ui'.statuscolumn()]]
-	vim.opt.foldtext = "v:lua.require'shiroryuu.utils.ui'.foldtext()"
-	vim.opt.foldmethod = "indent"
 end
 
 -- load icons if enabled
