@@ -134,7 +134,7 @@ return {
 			end)
 
 			-- diagnostics signs
-			if vim.fn.has("nvim-0.10.0") == 0 then
+			if vim.fn.has("nvim-0.10") == 0 then
 				for severity, icon in pairs(opts.diagnostics.signs.text) do
 					local name = vim.diagnostic.severity[severity]:lower():gsub("^%l", string.upper)
 					name = "DiagnosticSign" .. name
@@ -142,17 +142,33 @@ return {
 				end
 			end
 
-			-- inlay hints
-			if opts.inlay_hints.enabled then
-				lsp.on_attach(function(client, buffer)
-					if client.supports_method("textDocument/inlayHint") then
-						-- utils.toggle.inlay_hints(buffer, true)
-					end
-				end)
-			end
+
+            if vim.fn.has("nvim-0.10") == 1 then
+			    if opts.inlay_hints.enabled then
+				    lsp.on_attach(function(client, buffer)
+                        -- TODO: Change client.supports_method as some bugs are reported in Lazyvim (need create an API)
+                        -- REFR: https://github.com/LazyVim/LazyVim/issues/3246
+					    if client.supports_method("textDocument/inlayHint") then
+                            vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
+					    end
+				    end)
+			    end
+
+                if opts.codelens.enabled and vim.lsp.codelens then
+				    lsp.on_attach(function(client, buffer)
+					    if client.supports_method("textDocument/codeLens") then
+                            vim.lsp.codelens.refresh()
+                            vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+                                buffer = buffer,
+                                callback = vim.lsp.codelens.refresh,
+                            })
+                        end
+                    end)
+                end
+            end
 
 			if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
-				opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
+				opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10") == 0 and "●"
 					or function(diagnostic)
 						local icons = require("shiroryuu.util.icon").get_icons("Diagnostics", 1)
 						for d, icon in pairs(icons) do
