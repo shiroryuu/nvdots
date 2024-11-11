@@ -25,6 +25,8 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking",
 	group = augroup("highlight_yank"),
 	callback = function()
+        -- NOTE: vim.highlight deprecated! (Use vim.hl) (nvim 0.11)
+        -- REFR: https://github.com/neovim/neovim/commit/18b43c331d8a0ed87d7cbefe2a18543b8e4ad360
 		vim.highlight.on_yank()
 	end,
 })
