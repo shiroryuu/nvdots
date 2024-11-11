@@ -8,7 +8,7 @@ return {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 		},
 		build = ":TSUpdate",
-		event = "VeryLazy", -- TODO: Add LazyFile event
+		event = "User LazyFile", -- DONE: Add LazyFile event
 		cmd = {
 			"TSBufDisable",
 			"TSBufEnable",
@@ -83,13 +83,13 @@ return {
 	},
 	{
 		"nvim-treesitter/nvim-treesitter-context",
-		event = "VeryLazy", -- TODO: Switch to LazyFile
+		event = "User LazyFile", -- DONE: Switch to LazyFile
 		enabled = true,
 		opts = { mode = "cursor", max_lines = 3 },
 		config = function()
             -- TODO: Rethink all the keymaps
 			local tsc = require("treesitter-context")
-			vim.keymap.set("n", "<Leader>tt", function()
+			vim.keymap.set("n", "<Leader>tc", function()
 				tsc.toggle()
 			end, { desc = "Toggle Treesitter Context" })
 		end,
