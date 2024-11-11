@@ -13,6 +13,7 @@ return {
 		GitAlt = "",
 		LSP = "",
 		Package = "󰏖",
+        Recording = "󰑋",
 		Save = "",
 		Search = "",
 		Spellcheck = "󰓆",
