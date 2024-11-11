@@ -6,7 +6,9 @@ return {
 		require("mini.surround").setup()
 		require("mini.indentscope").setup()
 		require("mini.trailspace").setup()
+        require("mini.icons").setup()
 
+        -- TODO: Add Recording Label for macros.
 		local statusline = require("mini.statusline")
 		statusline.setup({ use_icons = vim.g.icons_enabled ~= false }) -- icon
 		statusline.section_location = function()
