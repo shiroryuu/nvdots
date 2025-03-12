@@ -1,4 +1,5 @@
 -- TODO: Cleanup comments
+-- TODO: mv to lazydev
 return {
 	{
 		"neovim/nvim-lspconfig",

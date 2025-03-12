@@ -1,4 +1,8 @@
 -- TODO: Add toggle term (from astronvim)
+-- TODO: Try blink.cmp
+-- TODO: Move to oil.nvim
+-- TODO: Advance Telescope multigrep
+-- REFR: TJ Devries patch, https://github.com/tjdevries/config.nvim/blob/master/lua/custom/plugins/telescope.lua
 -- NOTE: https://github.com/AstroNvim/AstroNvim/blob/cc6dc97f0f059a4ba5dda916ffc137d6609fa0ff/lua/astronvim/plugins/toggleterm.lua#L20
 for _, source in ipairs({
 	"shiroryuu.options",
