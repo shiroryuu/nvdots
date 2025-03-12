@@ -109,6 +109,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 ]]
 
+vim.api.nvim_create_autocmd("RecordingEnter", {
+  pattern = "*",
+  callback = function()
+    vim.g.macro_recording = "Recording @" .. vim.fn.reg_recording()
+    vim.cmd("redrawstatus")
+  end,
+})
+
+-- Autocmd to track the end of macro recording
+vim.api.nvim_create_autocmd("RecordingLeave", {
+  pattern = "*",
+  callback = function()
+    vim.g.macro_recording = ""
+    vim.cmd("redrawstatus")
+  end,
+})
+
 -- LazyFile and LazyGitFile from (LazyVim and Astro)
 vim.api.nvim_create_autocmd({ "BufReadPost", "BufNewFile", "BufWritePost" }, {
 	desc = "User events for file detection (LazyFile and LazyGitFile)",

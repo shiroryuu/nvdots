@@ -34,7 +34,9 @@ return {
 			{
 				"<Leader>ff",
 				function()
-					builtin.find_files()
+					builtin.find_files({
+                        follow = true
+                    })
 				end,
 				mode = "n",
 				desc = "Find Files",
