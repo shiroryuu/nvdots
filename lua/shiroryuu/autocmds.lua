@@ -20,6 +20,20 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+	desc = "Load lanaguage specific configs",
+	group = augroup("lang_module"),
+	pattern = "*",
+	callback = function(event)
+        -- print("Lang Path " .. event.match)
+        local lang_module_path = "shiroryuu.lang." .. event.match
+        local ok, lang_module = pcall(require, lang_module_path)
+
+        if ok and lang_module and lang_module.setup then
+            lang_module.setup()
+        end
+	end,
+})
 -- Highlight Yanks
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking",

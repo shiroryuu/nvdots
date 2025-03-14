@@ -5,10 +5,8 @@ return {
 		build = ":MasonUpdate",
 		opts = {
 			ensure_installed = {
-				"ansible-lint",
 				"stylua",
 				"shfmt",
-				-- flake8
 			},
 			ui = {
 				icons = {
