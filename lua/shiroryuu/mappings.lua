@@ -53,8 +53,13 @@ map("n", "<Leader>tb", function()
 	toggles.toggle_background()
 end, { desc = "Toggle Theme background (Dark/Light)" })
 
--- Normal Mode
-map("n", "<Leader>e", "<Cmd>Neotree toggle<CR>", { desc = "Explorer toggle" })
+-- Explorer
+-- map("n", "<Leader>e", "<Cmd>Neotree toggle<CR>", { desc = "Explorer toggle" })
+-- Oil.nvim
+map("n", "<Leader>e", function()
+    require("oil").toggle_float()
+end, { desc = "Explorer Toggle (Oil)" })
+
 -- TODO: Change this shortcut
 map("n", "<Leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word" })
 map("n", "<Leader>w", "<Cmd>w<CR>", { desc = "Save" })
