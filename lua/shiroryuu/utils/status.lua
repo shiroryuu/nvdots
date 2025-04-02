@@ -14,6 +14,14 @@ function M.recordingStatus()
     return  "Recording " .. icon .. prefix .. register
 end
 
--- TODO: Add Recording notification
+-- DONE: Add Recording notification
+function M.notifyRecording()
+    local icon = get_icon("General", "Recording", 1)
+    local prefix = "@"
+    local register = vim.fn.reg_recording()
+    if M.isRecording() then
+        vim.notify("Recording Macro " ..icon .. prefix .. register, vim.log.levels.INFO)
+    end
+end
 
 return M

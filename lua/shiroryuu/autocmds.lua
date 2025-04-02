@@ -127,6 +127,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.api.nvim_create_autocmd("RecordingEnter", {
   pattern = "*",
   callback = function()
+    require("shiroryuu.utils.status").notifyRecording()
     vim.g.macro_recording = "Recording @" .. vim.fn.reg_recording()
     vim.cmd("redrawstatus")
   end,
