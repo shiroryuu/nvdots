@@ -3,25 +3,21 @@ return {
 	tag = "0.1.6",
 	dependencies = {
 		{ "nvim-lua/plenary.nvim", lazy = true },
+		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+		{ "nvim-telescope/telescope-smart-history.nvim" },
+		{ "nvim-telescope/telescope-ui-select.nvim" },
 	},
 	cmd = "Telescope",
 	keys = function()
 		local builtin = require("telescope.builtin")
 		return {
-			{
-				"<Leader>f<CR>",
-				function()
-					builtin.resume()
-				end,
-				mode = "n",
-				desc = "Resume previous search",
-			},
+			{ "<Leader>f<CR>", "<cmd>Telescope resume<CR>", mode = "n", desc = "Resume previous telescope (prompt)" },
 			-- List open buffers
 			{
 				"<M-Tab>",
 				function()
 					if #vim.api.nvim_list_bufs() > 1 then
-						builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
+						builtin.buffers({ initial_mode = "normal", sort_mru = true, ignore_current_buffer = true })
 					else
 						vim.notify("No other buffers open !!")
 					end
@@ -35,29 +31,14 @@ return {
 				"<Leader>ff",
 				function()
 					builtin.find_files({
-                        follow = true
-                    })
+						follow = true,
+					})
 				end,
 				mode = "n",
 				desc = "Find Files",
 			},
-			{
-				"<Leader>fh",
-				function()
-					builtin.help_tags()
-				end,
-				mode = "n",
-				desc = "Find Help",
-			},
-			{
-				"<Leader>fg",
-				function()
-					builtin.git_files()
-				end,
-				mode = "n",
-				desc = "Find Git Files",
-			},
-			-- TODO: Load all the themes before launching the picker.
+			{ "<Leader>fh", "<cmd>Telescope help_tags<CR>", mode = "n", desc = "Find Help" },
+			{ "<Leader>fg", "<cmd>Telescope git_files<CR>", mode = "n", desc = "Find Git Files" },
 			{
 				"<Leader>ft",
 				function()
@@ -66,14 +47,7 @@ return {
 				mode = "n",
 				desc = "Find Themes",
 			},
-			{
-				"<Leader>fw",
-				function()
-					builtin.live_grep()
-				end,
-				mode = "n",
-				desc = "Find Word",
-			},
+			{ "<Leader>fw", "<cmd>Telescope live_grep<CR>", mode = "n", desc = "Find Git Files" },
 			{
 				"<Leader>fW",
 				function()
@@ -104,40 +78,11 @@ return {
 				mode = "n",
 				desc = "Search String",
 			},
-			-- Git
-			{
-				"<Leader>gb",
-				function()
-					builtin.git_branches()
-				end,
-				mode = "n",
-				desc = "Git Branches",
-			},
-			{
-				"<Leader>gc",
-				function()
-					builtin.git_commits()
-				end,
-				mode = "n",
-				desc = "Git Commits (Repo)",
-			},
-			{
-				"<Leader>gC",
-				function()
-					builtin.git_bcommits()
-				end,
-				mode = "n",
-				desc = "Git Commits (Current File)",
-			},
-			{
-				"<Leader>gt",
-				function()
-					builtin.git_status()
-				end,
-				mode = "n",
-				desc = "Git Status",
-			},
-			-- TODO: Add current buffer fuzzy finder
+			{ "<Leader>gb", "<cmd>Telescope git_commits<cr>", desc = "Git Branches" },
+			{ "<Leader>gc", "<cmd>Telescope git_commits<cr>", desc = "Git Commits (Repo)" },
+			{ "<Leader>gC", "<cmd>Telescope git_bcommits<cr>", desc = "Git Commits (Current File)" },
+			{ "<Leader>gt", "<cmd>Telescope git_status<cr>", desc = "Git Status" },
+			-- DONE: Add current buffer fuzzy finder
 			-- TODO: Add telescope integration with trouble
 		}
 	end,
