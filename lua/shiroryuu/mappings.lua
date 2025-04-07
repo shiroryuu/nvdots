@@ -10,7 +10,7 @@ map("n", "<Leader>ac", function()
     -- print("Filename is " .. current_file)
 end, { desc = "Autocompile targets (Mostly latex and markdown)" })
 map("n", "<Leader>ao", function()
-    -- TODO: Open compiled outpus
+    -- DONE: Open compiled outpus
     local utils = require("shiroryuu.utils")
     local current_file = vim.api.nvim_buf_get_name(0)
     utils.exec_sys_cmd({ "opout" , current_file }, false)

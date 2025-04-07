@@ -1,46 +1,67 @@
 return {
-	{
-		"folke/which-key.nvim",
-		event = "VeryLazy",
-		opts = function()
-			local get_icon = require("shiroryuu.utils.icon").get_unicon
-			return {
-				plugins = { spelling = true },
-				icons = {
-					group = vim.g.icons_enabled ~= false and "" or "+",
-				},
-				defaults = {
-					mode = { "n", "v" },
-					["g"] = { name = "+goto" },
-					["gs"] = { name = "+surround" },
-					["z"] = { name = "+fold" },
-					["]"] = { name = "+next" },
-					["["] = { name = "+prev" },
-					["<M-Tab>"] = { get_icon("General", "Files", 1) .. "Open Buffers" },
-					["<Leader>b"] = { get_icon("General", "Window", 1) .. "Buffer" },
-					["<Leader>c"] = { get_icon("General", "Code", 1) .. "Code/LSP" },
-					["<Leader>d"] = { get_icon("General", "Dap", 1) .. "Debugger" },
-					["<Leader>e"] = { get_icon("General", "Folders", 1) .. "Neotree toggle" },
-					["<Leader>f"] = { get_icon("General", "Search", 1) .. "Find" },
-					["<Leader>h"] = { get_icon("General", "Window", 1) .. "Harpoon" },
-					["<Leader>g"] = { get_icon("General", "Git", 1) .. "Git" },
-					["<Leader>gh"] = { get_icon("Git", "Hunk", 1) .. "Hunk" },
-					["<Leader>gg"] = { get_icon("General", "GitAlt", 1) .. "LazyGit" },
-					["<Leader>p"] = { get_icon("General", "Arrow", 1) .. "Projects" },
-					["<Leader>q"] = { get_icon("General", "Close", 1) .. "Quit" },
-					["<Leader>t"] = { get_icon("General", "Toggles", 2) .. "Toggles" },
-					["<Leader>w"] = { get_icon("General", "Save", 1) .. "Save" },
-					["<Leader>x"] = { get_icon("General", "Diagnostics", 1) .. "Diagnostics" },
-				},
-			}
-		end,
-		config = function(_, opts)
-			local wk = require("which-key")
-			wk.setup(opts)
-			wk.register(opts.defaults)
-		end,
-	},
-	-- TODO: Add REFR or REFS
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        opts = function()
+            local get_icon = require("shiroryuu.utils.icon").get_unicon
+            return {
+                plugins = { spelling = true },
+                icons = {
+                    group = vim.g.icons_enabled ~= false and "" or "+",
+                },
+                preset = "modern",
+                keymaps = {
+                    mode = { "n", "v" },
+                    { "c",        group = "Change" },
+                    { "d",        group = "Delete" },
+                    { "g",        desc = "goto" },
+                    { "gs",       group = "surround" },
+                    -- {"s", group = "surround" },
+                    { "z",        group = "fold" },
+                    { "]",        group = "next" },
+                    { "[",        group = "prev" },
+                    { "<Leader>", icon = { icon = get_icon("General", "Spacebar") }, desc = "Leader Key" },
+                    {
+                        "<M-Tab>",
+                        icon = { icon = get_icon("General", "Files") },
+                        desc = "Open Buffers",
+                    },
+                    { "<Leader>b", icon = { icon = get_icon("General", "Window") }, group = "Buffer" },
+                    { "<Leader>c", icon = { icon = get_icon("General", "Code") },   group = "Code/LSP" },
+                    { "<Leader>d", icon = { icon = get_icon("General", "Dap") },    group = "Debugger" },
+                    {
+                        "<Leader>e",
+                        icon = { icon = get_icon("General", "Folders") },
+                        desc = "Explorer toggle",
+                    },
+                    { "<Leader>f",  icon = { icon = get_icon("General", "Search") },             group = "Find" },
+                    { "<Leader>h",  icon = { icon = get_icon("General", "Window") },             group = "Harpoon" },
+                    { "<Leader>g",  icon = { icon = get_icon("General", "Git"), color = "red" }, group = "Git" },
+                    { "<Leader>gh", icon = { icon = get_icon("Git", "Hunk"), color = "red" },    group = "Hunks" },
+                    {
+                        "<Leader>gg",
+                        icon = { icon = get_icon("General", "GitAlt"), color = "orange" },
+                        desc = "LazyGit",
+                    },
+                    { "<Leader>p", icon = { icon = get_icon("General", "Arrow") },       group = "Projects" },
+                    { "<Leader>q", icon = { icon = get_icon("General", "Close") },       desc = "Quit" },
+                    { "<Leader>r", icon = { icon = get_icon("General", "Edit") },        group = "Rename" },
+                    { "<Leader>s", icon = { icon = get_icon("General", "Search") },      group = "Search" },
+                    { "<Leader>t", icon = { icon = get_icon("General", "Toggles") },     group = "Toggles" },
+                    { "<Leader>u", icon = { icon = get_icon("General", "Toggles") },     group = "UI" },
+                    { "<Leader>w", icon = { icon = get_icon("General", "Save") },        group = "Save" },
+                    { "<Leader>x", icon = { icon = get_icon("General", "Diagnostics") }, desc = "Diagnostics" },
+                },
+            }
+        end,
+        config = function(_, opts)
+            local wk = require("which-key")
+            wk.setup(opts)
+            wk.add(opts.keymaps)
+            -- wk.register(opts.defaults)
+        end,
+    },
+    -- DONE: Add REFR or REFS
     -- DONE: Add DONE
 	{
 		"folke/todo-comments.nvim",
