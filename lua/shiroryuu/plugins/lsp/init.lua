@@ -59,9 +59,9 @@ return {
 				-- Be aware that you also will need to properly configure your LSP server to
 				-- provide the code lenses.
                 -- TODO:Setup LSP for CodeLens
-				codelens = {
-					enabled = false,
-				},
+                codelens = {
+                    enabled = true,
+                },
                 document_highlight = {
                     enabled = true,
                 },
