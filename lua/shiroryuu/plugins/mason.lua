@@ -1,3 +1,4 @@
+-- FIXME: Build fails on initial installation
 return {
 	{
 		"williamboman/mason.nvim",
