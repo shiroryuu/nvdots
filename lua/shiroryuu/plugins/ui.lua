@@ -168,6 +168,9 @@ return {
 			require("zen-mode").setup(opts)
 		end,
 	},
+    -- TODO: DELTE This
+    -- NOTE: Moved to Snacks notify (checkout shiroryuu/snacks)
+    --[[
 	{
 		"rcarriga/nvim-notify",
 		event = "BufEnter",
@@ -186,4 +189,5 @@ return {
 			vim.notify = require("notify")
 		end,
 	},
+    ]]
 }
