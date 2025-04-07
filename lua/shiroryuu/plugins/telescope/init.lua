@@ -1,5 +1,7 @@
 return {
 	"nvim-telescope/telescope.nvim",
+    -- TODO: remove the version tag
+    -- version = false
 	tag = "0.1.6",
 	dependencies = {
 		{ "nvim-lua/plenary.nvim", lazy = true },
@@ -38,6 +40,13 @@ return {
 				desc = "Find Files",
 			},
 			{ "<Leader>fh", "<cmd>Telescope help_tags<CR>", mode = "n", desc = "Find Help" },
+			{
+				"<Leader>sw",
+				function()
+					require("shiroryuu.plugins.telescope.multigrep")()
+				end,
+				desc = "Multigrep",
+			},
 			{ "<Leader>fg", "<cmd>Telescope git_files<CR>", mode = "n", desc = "Find Git Files" },
 			{
 				"<Leader>ft",
