@@ -1,17 +1,15 @@
--- TODO: toggle tree structure
+-- DONE: toggle tree structure (Used floating window)
 -- TODO: Set ceiling when going up directiory
 -- TODO: Show git tracked hidden files
 return {
 	{
 		"stevearc/oil.nvim",
-		---@module 'oil'
-		---@type oil.SetupOpts
+        event = "VimEnter",
 		dependencies = {
 			{ "echasnovski/mini.icons", opts = {} },
 			{ "nvim-tree/nvim-web-devicons" },
 		},
 		cmd = "Oil",
-        -- event = "BufEnter",
         --[[ keys = {
             {"<Leader>-", "<CMD>Oil toggle_float<CR>", desc="" },
         }, ]]
