@@ -61,7 +61,7 @@ map("n", "<Leader>e", function()
 end, { desc = "Explorer Toggle (Oil)" })
 
 -- TODO: Change this shortcut
-map("n", "<Leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word" })
+-- map("n", "<Leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Replace word" })
 map("n", "<Leader>w", "<Cmd>w<CR>", { desc = "Save" })
 map("n", "<Leader>q", "<Cmd>confirm q<CR>", { desc = "Quit" })
 map("n", "n", "nzzzv")
@@ -86,3 +86,5 @@ map({ "n", "v" }, "<Leader>d", [["_d]], { desc = "Delete into void register" })
 -- Enable system clipboard
 map({ "n", "v" }, "<Leader>y", [["+y]], { desc = "Yank to system clipboard" })
 map("n", "<Leader>Y", [["+Y]], { desc = "Yank whole line to system clipboard" })
+
+map("n", "<Leader><Leader>x", "<cmd>source %<CR>", { desc = "Execute the current file" })
