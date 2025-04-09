@@ -13,7 +13,6 @@ return {
 				init = function(plugin)
 					require("shiroryuu.utils.plugin").on_load("mason.nvim", plugin.name)
 				end,
-				-- TODO: mason-lspconfig setup
 				opts = {},
 			},
 			{ "j-hui/fidget.nvim", opts = {} },
@@ -58,7 +57,7 @@ return {
 				-- Enable this to enable the builtin LSP code lenses on Neovim >= 0.10.0
 				-- Be aware that you also will need to properly configure your LSP server to
 				-- provide the code lenses.
-                -- TODO:Setup LSP for CodeLens
+                -- DONE:Setup LSP for CodeLens
                 codelens = {
                     enabled = true,
                 },
@@ -78,24 +77,55 @@ return {
 				},
 				-- LSP Server Settings
 				---@type lspconfig.options
+                ---@diagnostic disable: missing-fields
 				servers = {
-					lua_ls = {
-						-- mason = false, -- set to false if you don't want this server to be installed with mason
-						-- Use this to add any additional keymaps
-						-- for specific lsp servers
-						---@type LazyKeysSpec[]
-						-- keys = {},
-						settings = {
-							Lua = {
-								workspace = {
-									checkThirdParty = false,
-								},
-								codeLens = {
-									enable = true,
-								},
-								completion = {
-									callSnippet = "Replace",
-								},
+
+                    ansiblels = {},
+                    bashls = {},
+                    clangd = {},
+                    pyright = {},
+                    ruff = { manual_install = true },
+                    rust_analyzer = {
+                        -- Enable clippy diagnostics on save (or via command)
+                        checkOnSave = {
+                            command = "clippy",
+                            -- extraArgs = {"--", "-A", "clippy::some-allowance"}, -- Example args
+                        },
+                        -- Example inlay hints configuration (adjust to your preference)
+                        inlayHints = {
+                            bindingModeHints = { enable = false }, -- Preference
+                            chainingHints = { enable = true },
+                            closingBraceHints = { enable = true, minLines = 10 },
+                            lifetimeElisionHints = { enable = false, useParameterNames = false }, -- Preference
+                            maxLength = 120,
+                            parameterHints = { enable = true },
+                            renderColons = true,
+                            typeHints = { enable = true, hideSelf = true, hideClosureInitialization = false },
+                        },
+                        -- Ensure proc-macro support is enabled (usually default)
+                        procMacro = { enable = true },
+                        -- Improve cargo check integration
+                        cargo = {
+                            loadOutDirsFromCheck = true,
+                            -- features = "all", -- Or specify features
+                        },
+                        -- You can add many other rust-analyzer specific settings here
+                    },
+                    taplo = {},
+                    tailwindcss = {},
+	                lua_ls = {
+		                ---@type LazyKeysSpec[]
+		                settings = {
+			                Lua = {
+				                workspace = {
+					                checkThirdParty = false,
+				                },
+				                codeLens = {
+					                enable = true,
+				                },
+				                completion = {
+					                callSnippet = "Replace",
+				                },
                                 doc = {
                                     privateName = { "^_" },
                                 },
@@ -107,9 +137,9 @@ return {
                                     setType = true,
                                     semicolon = "Disable",
                                 },
-							},
-						},
-					},
+			                },
+		                },
+	                },
 				},
 				-- you can do any additional lsp server setup here
 				-- return true if you don't want this server to be setup with lspconfig
@@ -183,12 +213,12 @@ return {
 			end
 			vim.diagnostic.config(vim.deepcopy(opts.diagnostic))
 			local servers = opts.servers
-			local has_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+            local has_blink, blink = pcall(require, 'blink.cmp')
 			local capabilities = vim.tbl_deep_extend(
 				"force",
 				{},
 				vim.lsp.protocol.make_client_capabilities(),
-				has_cmp and cmp_lsp.default_capabilities() or {},
+                has_blink and blink.get_lsp_capabilities() or {},
 				opts.capabilities or {}
 			)
 
@@ -209,6 +239,8 @@ return {
 				require("lspconfig")[server].setup(server_opts)
 			end
 
+            require("mason").setup()
+
 			-- get all the servers that are available through mason-lspconfig
 			local have_mason, mlsp = pcall(require, "mason-lspconfig")
 			local all_mslp_servers = {}
@@ -218,8 +250,7 @@ return {
 			end
 
 			local ensure_installed = {}
-			for server, server_opts in ipairs(servers) do
-				if server_opts then
+			for server, server_opts in pairs(servers) do if server_opts then
 					server_opts = server_opts == true and {} or server_opts
 					if server_opts.enabled ~= false then
 						ensure_installed[#ensure_installed + 1] = server
@@ -228,7 +259,7 @@ return {
 			end
 
 			if have_mason then
-				mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
+				mlsp.setup({ ensure_installed = ensure_installed, automatic_installation = true, handlers = { setup } })
 			end
 		end,
 	},
