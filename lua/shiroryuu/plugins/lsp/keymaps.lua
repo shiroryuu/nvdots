@@ -82,8 +82,14 @@ function M.get_keys()
 		},
 		{
 			"<Leader>cf",
+            -- TODO: Add Range format (mode:V)
 			function()
-				vim.lsp.buf.format({ async = true })
+                local has_conform, conform = pcall(require, "conform")
+                if has_conform then
+                    conform.format({ async = true })
+                else
+				    vim.lsp.buf.format({ async = true })
+                end
 			end,
 			mode = "n",
 			desc = "Format buffer",

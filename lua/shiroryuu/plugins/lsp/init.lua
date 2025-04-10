@@ -6,9 +6,10 @@ return {
 		dependencies = {
 			{ "folke/neoconf.nvim", cmd = "Neoconf", config = true, lazy = true, dependencies = { "nvim-lspconfig" } },
 			{ "folke/neodev.nvim", opts = {} },
+            { "stevearc/conform.nvim" },
+            { "williamboman/mason.nvim" },
 			{
-				"williamboman/mason-lspconfig.nvim",
-				dependencies = { "williamboman/mason.nvim" },
+                "williamboman/mason-lspconfig.nvim",
 				cmd = { "LspInstall", "LspUninstall" },
 				init = function(plugin)
 					require("shiroryuu.utils.plugin").on_load("mason.nvim", plugin.name)
