@@ -86,32 +86,6 @@ return {
                     clangd = {},
                     pyright = {},
                     ruff = { manual_install = true },
-                    rust_analyzer = {
-                        -- Enable clippy diagnostics on save (or via command)
-                        checkOnSave = {
-                            command = "clippy",
-                            -- extraArgs = {"--", "-A", "clippy::some-allowance"}, -- Example args
-                        },
-                        -- Example inlay hints configuration (adjust to your preference)
-                        inlayHints = {
-                            bindingModeHints = { enable = false }, -- Preference
-                            chainingHints = { enable = true },
-                            closingBraceHints = { enable = true, minLines = 10 },
-                            lifetimeElisionHints = { enable = false, useParameterNames = false }, -- Preference
-                            maxLength = 120,
-                            parameterHints = { enable = true },
-                            renderColons = true,
-                            typeHints = { enable = true, hideSelf = true, hideClosureInitialization = false },
-                        },
-                        -- Ensure proc-macro support is enabled (usually default)
-                        procMacro = { enable = true },
-                        -- Improve cargo check integration
-                        cargo = {
-                            loadOutDirsFromCheck = true,
-                            -- features = "all", -- Or specify features
-                        },
-                        -- You can add many other rust-analyzer specific settings here
-                    },
                     taplo = {},
                     tailwindcss = {},
 	                lua_ls = {
@@ -260,7 +234,7 @@ return {
 			end
 
 			if have_mason then
-				mlsp.setup({ ensure_installed = ensure_installed, automatic_installation = true, handlers = { setup } })
+				mlsp.setup({ ensure_installed = ensure_installed, automatic_installation = false, handlers = { setup } })
 			end
 		end,
 	},
