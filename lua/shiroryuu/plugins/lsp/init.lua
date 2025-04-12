@@ -7,7 +7,20 @@ return {
 			{ "folke/neoconf.nvim", cmd = "Neoconf", config = true, lazy = true, dependencies = { "nvim-lspconfig" } },
 			{ "folke/neodev.nvim", opts = {} },
             { "stevearc/conform.nvim" },
-            { "williamboman/mason.nvim" },
+            {
+                "williamboman/mason.nvim",
+                cmd = "Mason",
+		        build = ":MasonUpdate",
+		        opts = {
+			        ui = {
+				        icons = {
+					        package_installed = "✓",
+					        package_uninstalled = "✗",
+					        package_pending = "⟳",
+				        },
+			        },
+		        },
+            },
 			{
                 "williamboman/mason-lspconfig.nvim",
 				cmd = { "LspInstall", "LspUninstall" },
