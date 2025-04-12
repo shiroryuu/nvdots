@@ -1,11 +1,15 @@
--- Fetched from Lazyvim
--- TODO: Need to Uninstall rust-analyzer from Mason ( as rustaceanvim uses system
+-- DONE: Need to Uninstall rust-analyzer from Mason ( as rustaceanvim uses system
 -- rustanalyzer.
-  -- REFR: https://github.com/LazyVim/LazyVim/pull/2755
--- TODO: Disable rust-analyzer from nvim-lspconfig
-  -- REFR: https://github.com/LazyVim/LazyVim/issues/4685
+-- REFR: https://github.com/LazyVim/LazyVim/pull/2755
+-- DONE: Disable rust-analyzer from nvim-lspconfig
+-- REFR: https://github.com/LazyVim/LazyVim/issues/4685
 local diagnostics = "rust-analyzer"
 return {
+    -- Add Rust & related to treesitter
+    {
+        "nvim-treesitter/nvim-treesitter",
+        opts = { ensure_installed = { "rust" } },
+    },
     {
         "williamboman/mason.nvim",
         optional = true,
@@ -113,5 +117,26 @@ return {
                 )
             end
         end,
+    },
+    -- Correctly setup lspconfig for Rust 🚀
+    {
+        "neovim/nvim-lspconfig",
+        opts = {
+            servers = {
+                bacon_ls = {
+                    enabled = diagnostics == "bacon-ls",
+                },
+                rust_analyzer = { enabled = false },
+            },
+        },
+    },
+    {
+        "nvim-neotest/neotest",
+        optional = true,
+        opts = {
+            adapters = {
+                ["rustaceanvim.neotest"] = {},
+            },
+        },
     },
 }
