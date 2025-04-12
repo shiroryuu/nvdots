@@ -1,3 +1,6 @@
+-- TODO: Move specific dap plugins to lang module
+-- NOTE: We can pass the adapters into opts like in rust case the following:
+--      opts = { adapters = { ["rustaceanvim.neotest"] = {}, },
 return {
 	-- TODO: configure DAP
 	"mfussenegger/nvim-dap",

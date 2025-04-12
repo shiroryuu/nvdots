@@ -1,4 +1,9 @@
 -- Fetched from Lazyvim
+-- TODO: Need to Uninstall rust-analyzer from Mason ( as rustaceanvim uses system
+-- rustanalyzer.
+  -- REFR: https://github.com/LazyVim/LazyVim/pull/2755
+-- TODO: Disable rust-analyzer from nvim-lspconfig
+  -- REFR: https://github.com/LazyVim/LazyVim/issues/4685
 local diagnostics = "rust-analyzer"
 return {
     {
