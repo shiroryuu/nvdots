@@ -1,30 +1,42 @@
--- TODO: Add autoisntall using  mason-tool-installer
--- NOTE: Create a common place to fetch Linters, Formatters and LSP Servers.
---       And use a utility function to fetch those.
--- NOTE: Conform contributer wrote a small function to handle this
--- REFR: https://github.com/stevearc/conform.nvim/issues/104#issuecomment-1750643030
+local formatters = {
+	bib = { "trim_whitespace", "bibtex-tidy" },
+    c = { "clang-format" },
+    cpp = { "clang-format" },
+	css = { "stylelint", "prettier" },
+	javascript = { "biome" },
+	json = { "biome" },
+	jsonc = { "biome" },
+	lua = { "stylua" },
+	html = { "prettier" },
+	markdown = {
+		"markdown-toc",
+		"markdownlint",
+		-- "injected",
+	},
+	python = { "black" },
+    rust = { "rustfmt", lsp_format = "fallback" },
+	sh = { "shellcheck", "shfmt" },
+	typescript = { "biome" },
+	yaml = { "prettier" },
+	["_"] = { "trim_whitespace", "trim_newlines", "squeeze_blanks" },
+	["*"] = { "codespell" },
+}
+
 return {
     "stevearc/conform.nvim",
     dependencies = {
         "williamboman/mason.nvim",
     },
     event = { "BufWritePre" },
+    cmd = "ConformInfo",
     lazy = true,
-    opts = {
-        formatter_by_ft = {
-            lua = { "stylua" },
-            css = { "prettierd" },
-            html = { "prettierd" },
-            javascript = { "prettierd", "prettier", stop_after_first = true },
-            json = { "jq" },
-            -- Conform will run multiple formatters sequentially
-            python = { "isort", "black" },
-            rust = { "rustfmt", lsp_format = "fallback" },
-            sh = { "shfmt" },
-        },
-        -- Set default options
-        default_format_opts = {
-            lsp_format = "fallback",
-        },
-    },
+    config = function()
+        -- print("format is " .. vim.inspect(formatters))
+        require("conform").setup {
+            formatter_by_ft = formatters,
+            default_format_opts = {
+                lsp_format = "fallback",
+            },
+        }
+    end,
 }
