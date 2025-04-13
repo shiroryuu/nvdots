@@ -7,20 +7,7 @@ return {
 			{ "folke/neoconf.nvim", cmd = "Neoconf", config = true, lazy = true, dependencies = { "nvim-lspconfig" } },
 			{ "folke/neodev.nvim", opts = {} },
             { "stevearc/conform.nvim" },
-            {
-                "williamboman/mason.nvim",
-                cmd = "Mason",
-		        build = ":MasonUpdate",
-		        opts = {
-			        ui = {
-				        icons = {
-					        package_installed = "✓",
-					        package_uninstalled = "✗",
-					        package_pending = "⟳",
-				        },
-			        },
-		        },
-            },
+            { "williamboman/mason.nvim", },
 			{
                 "williamboman/mason-lspconfig.nvim",
 				cmd = { "LspInstall", "LspUninstall" },
@@ -93,14 +80,6 @@ return {
 				---@type lspconfig.options
                 ---@diagnostic disable: missing-fields
 				servers = {
-
-                    ansiblels = {},
-                    bashls = {},
-                    clangd = {},
-                    pyright = {},
-                    ruff = { manual_install = true },
-                    taplo = {},
-                    tailwindcss = {},
 	                lua_ls = {
 		                ---@type LazyKeysSpec[]
 		                settings = {
@@ -227,8 +206,6 @@ return {
 				require("lspconfig")[server].setup(server_opts)
 			end
 
-            require("mason").setup()
-
 			-- get all the servers that are available through mason-lspconfig
 			local have_mason, mlsp = pcall(require, "mason-lspconfig")
 			local all_mslp_servers = {}
@@ -251,4 +228,49 @@ return {
 			end
 		end,
 	},
+    {
+
+        "williamboman/mason.nvim",
+        cmd = "Mason",
+        -- keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
+        build = ":MasonUpdate",
+        opts_extend = { "ensure_installed" },
+        opts = {
+			ui = {
+				icons = {
+					package_installed = "✓",
+					package_uninstalled = "✗",
+					package_pending = "⟳",
+				},
+			},
+            ensure_installed = {
+                "stylua",
+                "selene",
+                "shfmt",
+            },
+        },
+        ---@param opts MasonSettings | {ensure_installed: string[]}
+        config = function(_, opts)
+            require("mason").setup(opts)
+            local mr = require("mason-registry")
+            mr:on("package:install:success", function()
+                vim.defer_fn(function()
+                    -- trigger FileType event to possibly load this newly installed LSP server
+                    require("lazy.core.handler.event").trigger({
+                        event = "FileType",
+                        buf = vim.api.nvim_get_current_buf(),
+                    })
+                end, 100)
+            end)
+
+            mr.refresh(function()
+                for _, tool in ipairs(opts.ensure_installed) do
+                    local p = mr.get_package(tool)
+                    if not p:is_installed() then
+                        p:install()
+                    end
+                end
+            end)
+        end,
+    },
 }
