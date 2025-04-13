@@ -46,6 +46,17 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+-- Oil
+-- vim.api.nvim_create_autocmd("FileType", {
+--     desc = "Remove buff defaults for oil",
+--     group = augroup("oil"),
+--     callback = function()
+--         vim.opt_local.number = false
+--         vim.opt_local.relativenumber = false
+--         vim.opt_local.scrolloff = 0
+--     end
+-- })
+
 -- Terminal
 vim.api.nvim_create_autocmd("TermOpen", {
 	desc = "Set defaults when opening Terminal",
