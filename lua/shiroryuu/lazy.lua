@@ -21,4 +21,7 @@ local opts = {
 	},
 }
 
-require("lazy").setup("shiroryuu.plugins", opts)
+require("lazy").setup({
+    { import = "shiroryuu.plugins" },
+    { import = "shiroryuu.plugins.lang" },
+}, opts)

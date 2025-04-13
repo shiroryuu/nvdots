@@ -1,95 +1,87 @@
+local blink_from_main = false
 return {
-	{
-		"hrsh7th/nvim-cmp",
-		event = "InsertEnter",
-		version = false, -- its been 2 years since the last tagged release
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"hrsh7th/cmp-buffer",
-			"hrsh7th/cmp-path",
-			"hrsh7th/cmp-cmdline",
-			"L3MON4D3/LuaSnip",
-			"saadparwaiz1/cmp_luasnip",
-		},
-		opts = function()
-			-- TODO: Add custom icons and remove LSPKind
-			local lspformat = function()
-				if require("shiroryuu.utils.plugin").is_available("lspkind.nvim") then
-					return require("lspkind").cmp_format(require("shiroryuu.utils.plugin").get_opts("lspkind.nvim"))
-				end
-			end
-			local cmp_icons = require("shiroryuu.utils.icon").get_icons("Kinds")
-			local cmp = require("cmp")
-			local defaults = require("cmp.config.default")()
-			local cmp_select = { behavior = cmp.SelectBehavior.Select }
-			return {
-				formatting = {
-					format = function(_, item)
-						if cmp_icons[item.kind] then
-							item.kind = cmp_icons[item.kind] .. " " .. item.kind
-						end
-						return item
-					end,
-				},
-				snippet = {
-					-- REQUIRED - you must specify a snippet engine
-					expand = function(args)
-						require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
-						-- vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
-					end,
-				},
-				mapping = cmp.mapping.preset.insert({
-					["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
-					["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
-					["<C-b>"] = cmp.mapping.scroll_docs(-4),
-					["<C-f>"] = cmp.mapping.scroll_docs(4),
-					["<C-e>"] = cmp.mapping.abort(),
-					["<C-y>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-					["<C-Space>"] = cmp.mapping.complete(),
-					["<S-CR>"] = cmp.mapping.confirm({
-						behavior = cmp.ConfirmBehavior.Replace,
-						select = true,
-					}), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-				}),
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" }, -- For luasnip users.
-				}, {
-					{ name = "buffer" },
-				}),
-				sorting = defaults.sorting,
-			}
-		end,
-		config = function(_, opts)
-			require("cmp").setup(opts)
-		end,
+	"saghen/blink.cmp",
+	-- optional: provides snippets for the snippet source
+	dependencies = {
+		{ "rafamadriz/friendly-snippets" },
+		{ "L3MON4D3/LuaSnip", version = "v2.*" },
 	},
-	{
-		"onsails/lspkind.nvim",
-		enabled = vim.g.icons_enabled ~= false,
-		opts = {
-			mode = "symbol",
-			symbol_map = {
-				Array = "󰅪",
-				Boolean = "⊨",
-				Class = "󰌗",
-				Constructor = "",
-				Key = "󰌆",
-				Namespace = "󰅪",
-				Null = "NULL",
-				Number = "#",
-				Object = "󰀚",
-				Package = "󰏗",
-				Property = "",
-				Reference = "",
-				Snippet = "",
-				String = "󰀬",
-				TypeParameter = "󰊄",
-				Unit = "",
+	version = blink_from_main and "*" or "1.*",
+	-- need cargo to build from main
+	build = blink_from_main and "cargo build --release",
+	event = "InsertEnter",
+
+	---@module 'blink.cmp'
+	---@type blink.cmp.Config
+	opts = function()
+		local cmp_icons = require("shiroryuu.utils.icon").get_icons("Kinds")
+
+		return {
+			cmdline = {
+				-- Disabled for now as it throws lspkind not found error
+				-- Also need to configure keymaps
+				enabled = false,
 			},
-		},
-		config = function(_, opts)
-			require("lspkind").init(opts)
-		end,
+			completion = {
+				menu = {
+					draw = {
+						components = {
+							kind_icon = {
+								text = function(ctx)
+									local lspkind = require("lspkind")
+									local icon = ctx.kind_icon
+									if vim.tbl_contains({ "Path" }, ctx.source_name) then
+										local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
+										if dev_icon then
+											icon = dev_icon
+										end
+									else
+										if cmp_icons[ctx.kind] then
+											icon = cmp_icons[ctx.kind]
+										end
+									end
+
+									return icon .. ctx.icon_gap
+								end,
+
+								-- Optionally, use the highlight groups from nvim-web-devicons
+								-- You can also add the same function for `kind.highlight` if you want to
+								-- keep the highlight groups in sync with the icons.
+								highlight = function(ctx)
+									local hl = ctx.kind_hl
+									if vim.tbl_contains({ "Path" }, ctx.source_name) then
+										local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
+										if dev_icon then
+											hl = dev_hl
+										end
+									end
+									return hl
+								end,
+							},
+						},
+					},
+				},
+			},
+
+			-- See :h blink-cmp-config-keymap for defining your own keymap
+			keymap = { preset = "default" },
+
+			-- Default list of enabled providers defined so that you can extend it
+			-- elsewhere in your config, without redefining it, due to `opts_extend`
+			sources = {
+				default = { "lsp", "path", "snippets", "buffer" },
+			},
+			snippets = {
+				preset = "luasnip",
+			},
+		}
+	end,
+	opts_extend = {
+		"sources.default",
 	},
+	---@param opts blink.cmp.Config | { sources: { compat: string[] } }
+	config = function(_, opts)
+		local cmp_icons = require("shiroryuu.utils.icon").get_icons("Kinds")
+		require("blink.cmp").setup(opts)
+	end,
 }

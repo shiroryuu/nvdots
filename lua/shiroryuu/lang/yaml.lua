@@ -23,19 +23,10 @@ end
 
 function M.setup()
     -- Install yaml for General Yaml
-
-    local mason_nls_status, mason_nls = pcall(require, "mason-null-ls")
-    local sources = { "yamllint" }
-
 	if is_ansible() then
 		--load ansible lsp and ansible linter
 		vim.bo.filetype = "yaml.ansible"
 		-- load default yaml linter
-        sources = { "ansiblelint" }
-    end
-
-    if mason_nls_status then
-        mason_nls.setup({ ensure_installed =  sources, automatic_installation = false})
     end
 end
 
