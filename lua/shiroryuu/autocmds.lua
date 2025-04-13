@@ -34,6 +34,7 @@ vim.api.nvim_create_autocmd("FileType", {
         end
 	end,
 })
+
 -- Highlight Yanks
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking",
@@ -43,6 +44,18 @@ vim.api.nvim_create_autocmd("TextYankPost", {
         -- REFR: https://github.com/neovim/neovim/commit/18b43c331d8a0ed87d7cbefe2a18543b8e4ad360
 		vim.highlight.on_yank()
 	end,
+})
+
+-- Terminal
+vim.api.nvim_create_autocmd("TermOpen", {
+	desc = "Set defaults when opening Terminal",
+	group = augroup("termopen_options"),
+    callback = function ()
+        vim.opt_local.number = false
+        vim.opt_local.relativenumber = false
+        vim.opt_local.scrolloff = 0
+        vim.bo.filetype = "terminal"
+    end
 })
 
 -- close some filetypes with <q>
@@ -71,58 +84,6 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- TODO: Add removing pdf and other build files when exiting vim from *.tex,*.md or README
-
--- TODO: Delete This
--- LspAttach
---[[
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = augroup("lsp_attach"),
-	callback = function(event)
-		vim.bo[event.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-
-        local function map(mode, lhs, rhs, desc)
-            vim.keymap.set(mode, lhs, rhs, { buffer = event.buf , desc = desc })
-        end
-
-        map("n", "gd", function()
-            vim.lsp.buf.definition()
-            end, "Show definition of current symbol")
-        map("n", "gD", function()
-            vim.lsp.buf.declaration()
-            end, "Show declaration of current symbol")
-        map("n", "K", vim.lsp.buf.hover)
-        map("n", "gi", vim.lsp.buf.implementation)
-        map("n", "gr", vim.lsp.buf.references, "References of current symbol")
-        map({ "n", "v" }, "<Leader>la", vim.lsp.buf.code_action, "LSP Code action")
-        map("n", "<Leader>lD", vim.lsp.buf.type_definition, "Type Definition")
-        map("n", "<Leader>lr", vim.lsp.buf.rename, "Rename")
-        map("n", "<Leader>lf", function()
-            vim.lsp.buf.format({ async = true })
-            end, "Format buffer")
-        map("n", "<Leader>li", "<cmd>LspInfo<CR>", "Lsp info")
-        map("n", "<Leader>lwd", vim.lsp.buf.add_workspace_folder, "Add Workspace folder")
-        map(
-            "n",
-            "<Leader>lwr",
-            vim.lsp.buf.remove_workspace_folder,
-            "Remove Workspace folder"
-        )
-        map("n", "<Leader>lw", function()
-            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-            end, "List Workspace Folders")
-
-        map("n", "[d", function()
-            vim.diagnostic.goto_next()
-        end)
-        map("n", "]d", function()
-            vim.diagnostic.goto_prev()
-        end)
-        map("i", "<C-h>", function()
-            vim.lsp.buf.signature_help()
-        end)
-	end,
-})
-]]
 
 vim.api.nvim_create_autocmd("RecordingEnter", {
   pattern = "*",
