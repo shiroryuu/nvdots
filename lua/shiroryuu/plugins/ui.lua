@@ -63,14 +63,14 @@ return {
     },
     -- DONE: Add REFR or REFS
     -- DONE: Add DONE
-	{
-		"folke/todo-comments.nvim",
-		event = "User LazyFile",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		opts = {
-			-- your configuration comes here
-			-- or leave it empty to use the default settings
-			-- refer to the configuration section below
+    {
+        "folke/todo-comments.nvim",
+        event = "User LazyFile",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        opts = {
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
             signs = true, -- show icons in the signs column
             sign_priority = 8, -- sign priority
             -- keywords recognized as todo comments
@@ -100,16 +100,16 @@ return {
             -- * keyword: highlights of the keyword
             -- * after: highlights after the keyword (todo text)
             highlight = {
-                multiline = true, -- enable multine todo comments
+                multiline = true,    -- enable multine todo comments
                 multiline_pattern = "^.", -- lua pattern to match the next multiline from the start of the matched keyword
                 multiline_context = 10, -- extra lines that will be re-evaluated when changing a line
-                before = "", -- "fg" or "bg" or empty
-                keyword = "wide", -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
-                after = "fg", -- "fg" or "bg" or empty
+                before = "",         -- "fg" or "bg" or empty
+                keyword = "wide",    -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
+                after = "fg",        -- "fg" or "bg" or empty
                 pattern = [[.*<(KEYWORDS)\s*:]], -- pattern or table of patterns, used for highlighting (vim regex)
                 comments_only = true, -- uses treesitter to match keywords in comments only
-                max_line_len = 400, -- ignore lines longer than this
-                exclude = {}, -- list of file types to exclude highlighting
+                max_line_len = 400,  -- ignore lines longer than this
+                exclude = {},        -- list of file types to exclude highlighting
             },
             -- list of named colors where we try to extract the guifg from the
             -- list of highlight groups or use the hex color if hl not found as a fallback
@@ -118,11 +118,11 @@ return {
                 error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
                 warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },
                 info = { "DiagnosticInfo", "#2563EB" },
-                info_alt = {"DiagnosticInfo", "#BF24FB"},
+                info_alt = { "DiagnosticInfo", "#BF24FB" },
                 hint = { "DiagnosticHint", "#10B981" },
                 hint_alt = { "Identifier", "#1C4B0A" },
                 default = { "Identifier", "#7C3AED" },
-                test = { "Identifier", "#FF00FF" }
+                test = { "Identifier", "#FF00FF" },
             },
             search = {
                 command = "rg",
@@ -138,36 +138,47 @@ return {
                 pattern = [[\b(KEYWORDS):]], -- ripgrep regex
                 -- pattern = [[\b(KEYWORDS)\b]], -- match without the extra colon. You'll likely get false positives
             },
-
-		},
+        },
         keys = {
-            { "]t", function() require("todo-comments").jump_next() end, desc = "Next Todo Comment" },
-            { "[t", function() require("todo-comments").jump_prev() end, desc = "Previous Todo Comment" },
-			{ "<Leader>tt", "<Cmd>TodoTelescope<CR>", { desc = "Toggle TODO List" } },
+            {
+                "]t",
+                function()
+                    require("todo-comments").jump_next()
+                end,
+                desc = "Next Todo Comment",
+            },
+            {
+                "[t",
+                function()
+                    require("todo-comments").jump_prev()
+                end,
+                desc = "Previous Todo Comment",
+            },
+            { "<Leader>tt", "<Cmd>TodoTelescope<CR>",                         { desc = "Toggle TODO List" } },
             { "<leader>tT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
         },
-	},
-	{
-		"folke/zen-mode.nvim",
-		dependencies = { "folke/twilight.nvim" },
-		keys = {
-			{ "<Leader>tz", "<Cmd>ZenMode<CR>", { desc = "Toggle Zen mode" } },
-		},
-		opts = {
-			window = {
-				backdrop = 1,
-				width = 120,
-				height = 1,
-				options = {
-					signcolumn = "no",
-					relativenumber = false,
-				},
-			},
-		},
-		config = function(_, opts)
-			require("zen-mode").setup(opts)
-		end,
-	},
+    },
+    {
+        "folke/zen-mode.nvim",
+        dependencies = { "folke/twilight.nvim" },
+        keys = {
+            { "<Leader>tz", "<Cmd>ZenMode<CR>", { desc = "Toggle Zen mode" } },
+        },
+        opts = {
+            window = {
+                backdrop = 1,
+                width = 120,
+                height = 1,
+                options = {
+                    signcolumn = "no",
+                    relativenumber = false,
+                },
+            },
+        },
+        config = function(_, opts)
+            require("zen-mode").setup(opts)
+        end,
+    },
     -- TODO: DELTE This
     -- NOTE: Moved to Snacks notify (checkout shiroryuu/snacks)
     --[[

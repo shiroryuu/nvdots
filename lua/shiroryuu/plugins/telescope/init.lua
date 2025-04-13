@@ -57,6 +57,14 @@ return {
 				desc = "Find Themes",
 			},
 			{ "<Leader>fw", "<cmd>Telescope live_grep<CR>", mode = "n", desc = "Find Git Files" },
+			-- {
+			-- 	"<Leader>fw",
+			-- 	function()
+			-- 		builtin.live_grep()
+			-- 	end,
+			-- 	mode = "n",
+			-- 	desc = "Find Word",
+			-- },
 			{
 				"<Leader>fW",
 				function()
@@ -92,6 +100,7 @@ return {
 			{ "<Leader>gC", "<cmd>Telescope git_bcommits<cr>", desc = "Git Commits (Current File)" },
 			{ "<Leader>gt", "<cmd>Telescope git_status<cr>", desc = "Git Status" },
 			-- DONE: Add current buffer fuzzy finder
+			{ "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
 			-- TODO: Add telescope integration with trouble
 		}
 	end,
