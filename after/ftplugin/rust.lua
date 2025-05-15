@@ -1,15 +1,14 @@
-
--- FIX: Fix formatting
+local is_format_on_save = true
 local function format_on_save()
-    -- TODO: Custom Keymaps
     local lsp = require("shiroryuu.utils.lsp")
     lsp.on_attach(function(client, bufnr)
-        -- if client.supports_method("textDocument/formatting") then
         vim.api.nvim_create_autocmd("BufWritePre", {
-            group = vim.api.nvim_create_augroup("Shiroryuu_fos_python", { clear = true }),
+            group = vim.api.nvim_create_augroup("Shiroryuu_fos_rust", { clear = true }),
             buffer = bufnr,
             callback = function()
-                vim.lsp.buf.format({ async = false })
+                -- vim.lsp.buf.format({ async = false })
+                require("conform").format { lsp_fallback = "always" }
+				vim.cmd.update()
             end,
         })
         -- end
@@ -39,6 +38,10 @@ vim.opt_local.commentstring = "// %s"
 -- vim.opt_local.conceallevel = 0
 
 -- === End Editor Defaults ===
+
+if is_format_on_save ~= false then
+    format_on_save()
+end
 
 -- Format on Save
 -- format_on_save()

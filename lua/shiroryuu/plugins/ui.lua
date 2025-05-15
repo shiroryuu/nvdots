@@ -179,6 +179,38 @@ return {
             require("zen-mode").setup(opts)
         end,
     },
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        event = "user Lazyfile",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        keys = function()
+            local harpoon = require("harpoon")
+            return {
+			    {
+				    "<Leader>ha",
+				    function()
+					    harpoon:list():add()
+				    end,
+				    desc = "Add file to harpoon",
+			    },
+			    {
+				    "<Leader>hl",
+				    function()
+					    harpoon.ui:toggle_quick_menu(harpoon:list())
+				    end,
+				    desc = "Harpoon quicklist",
+			    },
+                { "<C-h>", function() harpoon:list():select(1) end, desc="Harpoon Select file 1"},
+                { "<C-t>", function() harpoon:list():select(2) end, desc="Harpoon Select file 2"},
+                { "<C-n>", function() harpoon:list():select(3) end, desc="Harpoon Select file 3"},
+                { "<C-s>", function() harpoon:list():select(4) end, desc="Harpoon Select file 4"},
+                -- Toggle previous & next buffers stored within Harpoon list
+                { "<C-S-P>", function() harpoon:list():prev() end, desc="Harpoon Buffer Prev"},
+                { "<C-S-N>", function() harpoon:list():next() end, desc="Harpoon Buffer Next"},
+            }
+        end,
+    },
     -- TODO: DELTE This
     -- NOTE: Moved to Snacks notify (checkout shiroryuu/snacks)
     --[[
