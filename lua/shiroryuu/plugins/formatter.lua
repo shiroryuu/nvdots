@@ -18,8 +18,9 @@ return {
 	            javascript = { "biome" },
 	            json = { "biome" },
 	            jsonc = { "biome" },
+                jinja = { "djlint" },
 	            lua = { "stylua" },
-	            html = { "prettier" },
+	            html = { "prettier", "djlint" },
 	            markdown = {
 		            "markdown-toc",
 		            "markdownlint",
