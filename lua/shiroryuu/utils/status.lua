@@ -11,7 +11,7 @@ function M.recordingStatus()
     local icon = get_icon("General", "Recording", 1)
     local prefix = "@"
     local register = vim.fn.reg_recording()
-    return  "Recording " .. icon .. prefix .. register
+    return  icon .. "Recording " .. prefix .. register
 end
 
 -- DONE: Add Recording notification
