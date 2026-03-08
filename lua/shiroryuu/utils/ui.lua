@@ -128,18 +128,18 @@ function M.statuscolumn()
 	local is_relnum = vim.wo[win].relativenumber
 	if (is_num or is_relnum) and vim.v.virtnum == 0 then
 
-	    if vim.fn.has("nvim-0.11") == 0 then
-		    -- Only needed for Neovim <0.10
-		    -- Newer versions include legacy signs in nvim_buf_get_extmarks
-		    if vim.v.relnum == 0 then
-			    components[2] = is_num and "%l" or "%r" -- the current line
-		    else
-			    components[2] = is_relnum and "%r" or "%l" -- other lines
-		    end
+		if vim.fn.has("nvim-0.11") == 0 then
+			-- Only needed for Neovim <0.10
+			-- Newer versions include legacy signs in nvim_buf_get_extmarks
+			if vim.v.relnum == 0 then
+				components[2] = is_num and "%l" or "%r" -- the current line
+			else
+				components[2] = is_relnum and "%r" or "%l" -- other lines
+			end
 
-	    else
-            components[2] = "%l"
-        end
+		else
+			components[2] = "%l"
+		end
 		components[2] = "%=" .. components[2] .. " " -- right align
 	end
 
@@ -163,7 +163,7 @@ function M.color(name, bg)
 	---@type {foreground?:number}?
 	---@diagnostic disable-next-line: deprecated
 	local hl = vim.api.nvim_get_hl and vim.api.nvim_get_hl(0, { name = name, link = false })
-		or vim.api.nvim_get_hl_by_name(name, true)
+	or vim.api.nvim_get_hl_by_name(name, true)
 	---@diagnostic disable-next-line: undefined-field
 	---@type string?
 	local color = nil

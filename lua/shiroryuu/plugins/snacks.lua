@@ -6,7 +6,12 @@ return {
         lazy = false,
         ---@type snacks.Config
         opts = {
-            bigfile = { enabled = true },
+			animate = { enabled = false },
+            bigfile = {
+				enabled = true,
+				notify = true,
+				size = 1.5 * 1024 * 1024, -- 1.5MB
+			},
             dashboard = { enabled = true },
             explorer = { enabled = false },
             indent = { enabled = false },
@@ -25,17 +30,24 @@ return {
                 enabled = true,
                 timeout = 3000,
             },
-            picker = { enabled = false, layout = "telescope" },
+            picker = {
+				enabled = true,
+				layout = "telescope"
+			},
             quickfile = { enabled = true },
-            scope = { enabled = true },
-            scroll = { enabled = true },
+            scope = { enabled = false },
+            scroll = { enabled = false },
             statuscolumn = { enabled = true },
+			win = { enabled = false },
             words = { enabled = true },
             styles = {
                 notification = {
                     -- wo = { wrap = true } -- Wrap notifications
                 },
             },
+			zen = {
+				enabled = true,
+			},
         },
         keys = {
             -- Top Pickers & Explorer
@@ -52,6 +64,13 @@ return {
                     Snacks.picker.buffers()
                 end,
                 desc = "Buffers",
+            },
+            {
+                "<leader>ft",
+                function()
+					Snacks.picker.colorschemes()
+                end,
+                desc = "Themes",
             },
             {
                 "<leader>/",

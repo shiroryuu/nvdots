@@ -3,6 +3,7 @@ local variant = vim.g.theme_variant or theme == "tokyonight" and "night" or ""
 
 local ok, err = pcall(require, theme)
 
+-- TODO: builtin theme errors out
 if not ok then
 	vim.api.nvim_err_writeln("Failed to load colorscheme:" .. theme .. "\nError:\n" .. err)
 	print("\n Loading colorscheme theme Tokyonight\n")
