@@ -1,3 +1,4 @@
+-- TODO: refactor into all utils into single file
 local M = {}
 
 function M.register_user_events(event, instant)
@@ -15,7 +16,6 @@ function M.register_user_events(event, instant)
 	end
 end
 
--- From Astrocore.cmd
 function M.exec_sys_cmd(cmd, show_error)
 	if type(cmd) == "string" then
 		cmd = { cmd }
@@ -33,5 +33,13 @@ function M.exec_sys_cmd(cmd, show_error)
 	return success and assert(result):gsub("[\27\155][][()#;?%d]*[A-PRZcf-ntqry=><~]", "") or nil
 end
 
-return M
+function M.formatexpr()
+	-- Move utils to global functions
+	local plugins = require("shiroryuu.utils.plugins")
+	if plugins.is_available("conform.nvim") then
+		return require("conform").formatexpr()
+	end
+	return vim.lsp.formatexpr({ timeout_ms = 3000 })
+end
 
+return M

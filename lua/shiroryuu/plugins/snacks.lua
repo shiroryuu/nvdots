@@ -37,7 +37,7 @@ return {
             quickfile = { enabled = true },
             scope = { enabled = false },
             scroll = { enabled = false },
-            statuscolumn = { enabled = true },
+            statuscolumn = { enabled = false }, -- enabled in options.lua
 			win = { enabled = false },
             words = { enabled = true },
             styles = {
@@ -51,13 +51,13 @@ return {
         },
         keys = {
             -- Top Pickers & Explorer
-            --[[ {
-				"<leader><space>",
+            {
+				"<localleader>f",
 				function()
 					Snacks.picker.smart()
 				end,
 				desc = "Smart Find Files",
-			}, ]]
+			},
             {
                 "<leader>,",
                 function()

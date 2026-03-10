@@ -91,6 +91,7 @@ return {
 		Package = "",
 		Property = "",
 		Reference = "",
+		Remove = "",
 		Snippet = "",
 		String = "",
 		Struct = "󰙅",

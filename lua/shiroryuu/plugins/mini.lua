@@ -12,7 +12,7 @@ return {
 
         -- DONE: Add Recording Label for macros.
 		local statusline = require("mini.statusline")
-        local status_utils = require("shiroryuu.utils.status")
+        local utils_ui = require("shiroryuu.utils.ui")
         local mini_status_active = function()
             local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
             local git           = MiniStatusline.section_git({ trunc_width = 40 })
@@ -24,7 +24,7 @@ return {
             -- local location      = MiniStatusline.section_location({ trunc_width = 75 })
             local location      = "%2l:%-2v"
             local search        = MiniStatusline.section_searchcount({ trunc_width = 75 })
-			local macro 		= status_utils.recordingStatus()
+			local macro 		= utils_ui.recordingStatus()
 
             return MiniStatusline.combine_groups({
                 { hl = mode_hl,                  strings = { mode, macro } },

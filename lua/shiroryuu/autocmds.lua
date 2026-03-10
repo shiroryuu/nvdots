@@ -3,6 +3,16 @@ local function augroup(name)
 end
 
 vim.api.nvim_create_autocmd("FileType", {
+	desc = "Enable wrap and spell for text like documents",
+	group = augroup("auto_spell"),
+	pattern = { "gitcommit", "markdown", "text", "plaintex" },
+	callback = function()
+		vim.opt_local.wrap = true
+		vim.opt_local.spell = true
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
 	desc  = "Close files with q",
 	group = augroup("close_with_q"),
 	pattern = {
@@ -24,6 +34,34 @@ vim.api.nvim_create_autocmd("FileType", {
 	callback = function(event)
 		vim.bo[event.buf].buflisted = false
 		vim.keymap.set("n", "q", vim.cmd.close, { buffer = event.buf, silent = true })
+	end,
+})
+
+vim.api.nvim_create_autocmd("RecordingEnter", {
+  pattern = "*",
+  callback = function()
+    require("shiroryuu.utils.utils").notifyRecording()
+    vim.g.macro_recording = "Recording @" .. vim.fn.reg_recording()
+    vim.cmd("redrawstatus")
+  end,
+})
+
+-- Autocmd to track the end of macro recording
+vim.api.nvim_create_autocmd("RecordingLeave", {
+  pattern = "*",
+  callback = function()
+    vim.g.macro_recording = ""
+    vim.cmd("redrawstatus")
+  end,
+})
+
+vim.api.nvim_create_autocmd("TextYankPost", {
+	desc = "Highlight the text on yanking",
+	group = augroup("highlight_on_copy"),
+	callback = function()
+		if vim.fn.has("nvim-0.11") then
+			vim.hl.on_yank()
+		end
 	end,
 })
 

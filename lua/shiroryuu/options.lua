@@ -4,19 +4,24 @@ local options = {
 		backup = false,
 		clipboard = "",
 		confirm = true,
+		expandtab = true,
 		fileencoding = "utf-8",
-		-- formatexpr = "v:lua.require'shiroryuu.util'.format.formatexpr()",
+		fillchars = {
+			foldopen = "",
+			foldclose = "",
+			fold = " ",
+			foldsep = " ",
+			diff = "╱",
+			eob = " ",
+		},
 		foldlevel = 99,
-        fillchars = {
-            foldopen = "",
-            foldclose = "",
-            fold = " ",
-            foldsep = " ",
-            diff = "╱",
-            eob = " ",
-        },
-		foldmethod = "expr",
-		foldexpr = "v:lua.require'shiroryuu.util'.ui.foldexpr()",
+		foldmethod = "indent",
+		-- RM:
+		-- foldexpr = "v:lua.require'shiroryuu.util'.ui.foldexpr()",
+		formatexpr = "v:lua.require'shiroryuu.util'.formatexpr()",
+		formatoptions = "jcroqlnt", -- default tcqj
+		grepformat = "%f:%l:%c:%m",
+		grepprg = "rg --vimgrep",
 		foldtext = "",
 		hlsearch = false,
 		history = 250,
@@ -24,13 +29,16 @@ local options = {
 		tabstop = 4,
 		shiftwidth = 4,
 		number = true,
+		-- numberwidth = 2,
 		cmdheight = 0,
 		relativenumber = true,
 		scrolloff = 8,
 		sidescrolloff = 8,
 		signcolumn = "yes",
+		smartcase = true,
+		smartindent = true,
 		smoothscroll = true, -- vim >= 0.10
-		-- statuscolumn = [[%!v:lua.require'shiroryuu.utils.ui'.statuscolumn()]],
+		statuscolumn = [[%!v:lua.require'shiroryuu.utils.ui'.statuscolumn()]],
 		termguicolors = true,
 		title = true,
 		undodir = vim.fn.stdpath("state") .. "/undodir",
@@ -44,8 +52,10 @@ local options = {
 	g = {
 		mapleader = " ",
 		maplocalleader = ",",
+		markdown_recommended_style = 0,
 		theme_name= "kanagawa",
 		theme_variant = "dragon",
+		-- RM: Remove this if Netrw is not used
 		netrw_browse_split = 0,
 		netrw_banner = 0,
 		netrw_winsize = 25,
@@ -73,6 +83,7 @@ local options = {
 		-- loaded_netrwSettings = 1,
 	},
 }
+
 for scope, table in pairs(options) do
 	for setting, value in pairs(table) do
 		vim[scope][setting] = value
