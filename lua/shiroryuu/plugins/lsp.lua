@@ -2,14 +2,10 @@ return {
     {
         "neovim/nvim-lspconfig",
         dependencies = {
-            -- RM: barely used
-            -- { "folke/neoconf.nvim", cmd = "Neoconf", config = true, lazy = true, dependencies = { "nvim-lspconfig" } },
-            -- RM: Moved to lazydev, check cmp.lua
-            -- { "folke/neodev.nvim", opts = {} },
             { "stevearc/conform.nvim" },
-            { "williamboman/mason.nvim", },
+            { "mason-org/mason.nvim", },
             {
-                "williamboman/mason-lspconfig.nvim",
+                "mason-org/mason-lspconfig.nvim",
                 cmd = { "LspInstall", "LspUninstall" },
                 init = function(plugin)
                     require("shiroryuu.utils.plugins").on_load("mason.nvim", plugin.name)
@@ -230,33 +226,40 @@ return {
              or {}
         local mason_exclude = {}
 
-        local ms_install = {}
-        for server,server_opts in pairs(opts.servers) do
-            server_opts = server_opts == true and {}
-            or (not server_opts) and { enabled = false } or server_opts
+        local function configure(server)
+            if server == "*" then
+                return false
+            end
+
+            local server_opts = opts.servers[server]
+            server_opts = server_opts == true and {} or (not server_opts) and { enabled = false } or server_opts
 
             if server_opts.enabled == false then
                 mason_exclude[#mason_exclude+1] = server
                 return
             end
-            local use_mason = server_opts.use_mason ~= false and vim.tbl_contains(mason_all, server)
-            -- vim.lsp.enable(server)
-            if use_mason then
-                ms_install[#ms_install+1] = server
-            end
 
+            local use_mason = server_opts.use_mason ~= false and vim.tbl_contains(mason_all,server)
+            vim.lsp.enable(server)
+            if not use_mason then
+                vim.lsp.config(server,server_opts)
+            end
+            return use_mason
         end
 
+        -- WARN: vim.tbl_filter and tbl_map are being depricated in favour of vim.iter():filter():totable()
+        local plugins = require("shiroryuu.plugins")
+        local install = vim.tbl_filter(configure, vim.tbl_keys(opts.servers))
         if have_mason then
             require("mason-lspconfig").setup({
-                ensure_install = ms_install,
+                ensure_installed = vim.list_extend(install, plugins.get_opts("mason-lspconfig.nvim").ensure_installed or {})
                 automatic_enable = { exclude = mason_exclude },
             })
         end
     end),
     },
     {
-        "williamboman/mason.nvim",
+        "mason-org/mason.nvim",
         cmd = "Mason",
         -- keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
         build = ":MasonUpdate",
