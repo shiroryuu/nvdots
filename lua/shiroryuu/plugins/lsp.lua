@@ -7,9 +7,9 @@ return {
             {
                 "mason-org/mason-lspconfig.nvim",
                 cmd = { "LspInstall", "LspUninstall" },
-                init = function(plugin)
-                    require("shiroryuu.utils.plugins").on_load("mason.nvim", plugin.name)
-                end,
+                -- init = function(plugin)
+                --     require("shiroryuu.utils.plugins").on_load("mason.nvim", plugin.name)
+                -- end,
                 opts = {},
             },
             { "j-hui/fidget.nvim", opts = {} },
@@ -105,6 +105,7 @@ return {
                                 desc = "[c]ode source [A]ction",
                             },
                             { "<Leader>cc", vim.lsp.codelens.run, desc = "Run Codelens", mode = { "n", "v" }, has = "codeLens", },
+                            { "<leader>cd", vim.diagnostic.open_float, desc="show diagnostic", mode = "n"},
                             { "<Leader>cC", vim.lsp.codelens.refresh, desc = "Refresh & Display Codelens", mode = { "n" }, has = "codeLens", },
                             { "<Leader>cr", vim.lsp.buf.rename, mode = "n", desc = "Rename", },
                             -- TODO: Add Range format (mode:V)
@@ -129,6 +130,7 @@ return {
                 stylua = { enabled = false },
                 clang = { enabled = true },
                 lua_ls = {
+                    root_markers = { ".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "selene.toml", ".git" },
                     settings = {
                         Lua = {
                             workspace = {
@@ -220,9 +222,9 @@ return {
          end
 
          -- Mason config
-         local have_mason, mlsp = pcall(require, "mason-lspconfig.nvim")
+         local have_mason, mlsp = pcall(require, "mason-lspconfig")
          local mason_all = have_mason and
-             vim.tbl_keys(require("mason-lspconfig.mappings").get_mason_map.lspconfig_to_package)
+             vim.tbl_keys(require("mason-lspconfig.mappings").get_mason_map().lspconfig_to_package)
              or {}
         local mason_exclude = {}
 
@@ -248,11 +250,12 @@ return {
         end
 
         -- WARN: vim.tbl_filter and tbl_map are being depricated in favour of vim.iter():filter():totable()
-        local plugins = require("shiroryuu.plugins")
+        local plugins = require("shiroryuu.utils.plugins")
         local install = vim.tbl_filter(configure, vim.tbl_keys(opts.servers))
+        -- local install = vim.iter(vim.tbl_keys(opts.servers)):filter(configure):totable()
         if have_mason then
             require("mason-lspconfig").setup({
-                ensure_installed = vim.list_extend(install, plugins.get_opts("mason-lspconfig.nvim").ensure_installed or {})
+                ensure_installed = vim.list_extend(install, plugins.get_opts("mason-lspconfig").ensure_installed or {}),
                 automatic_enable = { exclude = mason_exclude },
             })
         end

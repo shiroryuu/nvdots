@@ -40,7 +40,7 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("RecordingEnter", {
   pattern = "*",
   callback = function()
-    require("shiroryuu.utils.utils").notifyRecording()
+    require("shiroryuu.utils.ui").notifyRecording()
     vim.g.macro_recording = "Recording @" .. vim.fn.reg_recording()
     vim.cmd("redrawstatus")
   end,

@@ -19,6 +19,7 @@ function M.set_keymaps(filter, spec)
   for _, keys in pairs(Keys.resolve(spec)) do
     ---@cast keys LazyKeysLsp
     local filters = {} ---@type vim.lsp.get_clients.Filter[]
+    -- local snacks = require("snacks")
     if keys.has then
       local methods = type(keys.has) == "string" and { keys.has } or keys.has --[[@as string[] ]]
       for _, method in ipairs(methods) do
