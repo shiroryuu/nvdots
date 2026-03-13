@@ -56,9 +56,9 @@ local options = {
 		theme_name= "kanagawa",
 		theme_variant = "dragon",
 		-- RM: Remove this if Netrw is not used
-		netrw_browse_split = 0,
-		netrw_banner = 0,
-		netrw_winsize = 25,
+		-- netrw_browse_split = 0,
+		-- netrw_banner = 0,
+		-- netrw_winsize = 25,
 
 		-- Disable
 		loaded_gzip = 1,
@@ -78,9 +78,9 @@ local options = {
 		loaded_logiPat = 1,
 		loaded_rrhelper = 1,
 
-		-- loaded_netrw = 1,
-		-- loaded_netrwPlugin = 1,
-		-- loaded_netrwSettings = 1,
+		loaded_netrw = 1,
+		loaded_netrwPlugin = 1,
+		loaded_netrwSettings = 1,
 	},
 }
 

@@ -13,6 +13,7 @@ return {
 		"saghen/blink.cmp",
 		-- optional: provides snippets for the snippet source
 		dependencies = {
+			{ "nvim-tree/nvim-web-devicons" },
 			{ "rafamadriz/friendly-snippets" },
 			{ "L3MON4D3/LuaSnip", version = "v2.*", build = "make install_jsregexp"},
 		},
