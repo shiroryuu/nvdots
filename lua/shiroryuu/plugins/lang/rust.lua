@@ -90,8 +90,7 @@ return {
         config = function(_, opts)
             local utils = require("shiroryuu.utils.plugins")
             if utils.is_available("mason.nvim") then
-                -- require("mason-registry").refresh(cb?)
-                local package_path = require("mason-registry").get_package("codelldb"):get_install_path()
+                local package_path = vim.fn.exepath("codelldb")
                 local codelldb = package_path .. "/extension/adapter/codelldb"
                 local library_path = package_path .. "/extension/lldb/lib/liblldb.dylib"
                 local uname = io.popen("uname"):read("*l")
