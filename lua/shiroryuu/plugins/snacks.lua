@@ -31,7 +31,7 @@ return {
                 timeout = 3000,
             },
             picker = {
-				enabled = true,
+				enabled = false,
 				layout = "telescope"
 			},
             quickfile = { enabled = true },
