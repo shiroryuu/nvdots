@@ -41,6 +41,7 @@ local options = {
 		statuscolumn = [[%!v:lua.require'shiroryuu.utils.ui'.statuscolumn()]],
         swapfile = false;
 		termguicolors = true,
+        textwidth = 0,
 		title = true,
 		undodir = vim.fn.stdpath("state") .. "/undodir",
 		undofile = true,

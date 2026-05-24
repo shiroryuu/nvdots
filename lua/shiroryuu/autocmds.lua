@@ -5,10 +5,21 @@ end
 vim.api.nvim_create_autocmd("FileType", {
 	desc = "Enable wrap and spell for text like documents",
 	group = augroup("auto_spell"),
-	pattern = { "gitcommit", "markdown", "text", "plaintex" },
+	pattern = {
+        "gitcommit",
+        "markdown",
+        "text",
+        "plaintex",
+        "groff"
+    },
 	callback = function()
 		vim.opt_local.wrap = true
 		vim.opt_local.spell = true
+        vim.opt.linebreak = true
+        vim.opt_local.breakindent = true
+        vim.opt.signcolumn = "no"
+        vim.keymap.set('n', 'k', 'gk', { noremap = true })
+        vim.keymap.set('n', 'j', 'gj', { noremap = true })
 	end,
 })
 
