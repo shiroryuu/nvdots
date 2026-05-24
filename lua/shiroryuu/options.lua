@@ -39,6 +39,7 @@ local options = {
 		smartindent = true,
 		smoothscroll = true, -- vim >= 0.10
 		statuscolumn = [[%!v:lua.require'shiroryuu.utils.ui'.statuscolumn()]],
+        swapfile = false;
 		termguicolors = true,
 		title = true,
 		undodir = vim.fn.stdpath("state") .. "/undodir",
@@ -46,7 +47,7 @@ local options = {
 		undolevels = 10000,
 		virtualedit = "block",
 		wrap = false,
-		writebackup = true,
+		writebackup = false,
 		winborder = "rounded",
 	},
 	g = {
