@@ -26,4 +26,38 @@ map("n", "<leader><leader>x", ":update<CR> :source<CR>", { desc = "Reload config
 --
 -- end)
 
+local autocomp_job_id = nil
+
+local function stop_autocomp()
+    if autocomp_job_id then
+        vim.fn.jobstop(autocomp_job_id)
+        autocomp_job_id = nil
+    end
+end
+
+local function start_autocomp()
+    -- Stop any existing autocomp job first
+    stop_autocomp()
+    
+    -- Save file before starting
+    vim.cmd("w!")
+    
+    -- Start the job. We remove 'setsid -f' so Neovim stays the parent.
+    local file_path = vim.fn.expand("%:p")
+    autocomp_job_id = vim.fn.jobstart({"autocomp", file_path}, {
+        detach = false, -- This ensures it dies if Neovim is killed forcefully
+        on_exit = function() autocomp_job_id = nil end
+    })
+    
+    print("Autocomp started for: " .. vim.fn.expand("%:t"))
+end
+
+-- Cleanup on exit
+vim.api.nvim_create_autocmd("VimLeavePre", {
+    callback = stop_autocomp
+})
+
+map("n", "<leader>co", ":w! | !compiler %:p<CR>")
+map("n", "<leader>ca", start_autocomp, { desc = "Start Autocomp" })
+map("n", "<leader>cq", stop_autocomp, { desc = "Stop Autocomp" })
 map("n", "<leader>e", ":Explore<CR>", { desc = "Open Netrw" })
