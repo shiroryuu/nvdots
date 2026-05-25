@@ -23,6 +23,22 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("BufWinEnter", {
+	desc  = "Maximize size",
+	group = augroup("maximize_size"),
+	pattern = {
+        "*.txt",
+        "fugitive://*",
+    },
+    callback = function (event)
+        local ft = vim.bo[event.buf].filetype
+        if ft == "help" or ft == "fugitive" then
+            vim.bo[event.buf].buflisted = false
+            vim.cmd('wincmd T')
+        end
+    end,
+})
+
 vim.api.nvim_create_autocmd("FileType", {
 	desc  = "Close files with q",
 	group = augroup("close_with_q"),
@@ -34,6 +50,7 @@ vim.api.nvim_create_autocmd("FileType", {
         "oil",
 		"qf",
 		"query",
+        "fugitive",
 		"spectre_panel",
 		"startuptime",
 		"tsplayground",

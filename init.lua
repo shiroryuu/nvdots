@@ -1,10 +1,10 @@
 -- TODO: Plugins:
---  1. Direnv.nvim 
---  REFR: https://github.com/notashelf/direnv.nvim 
+--  1. Direnv.nvim
+--  REFR: https://github.com/notashelf/direnv.nvim
 -- TODO: Fix deprecations
 -- 1. nvim_err_write, nvim_write_ln() to nvim_echo()
     -- REFER: https://github.com/neovim/neovim/pull/31895
--- 2. vim.lsp.codelens.refresh() deprecated 
+-- 2. vim.lsp.codelens.refresh() deprecated
     -- REFER:
 for _, source in ipairs({
 		"shiroryuu.options",
