@@ -40,6 +40,7 @@ return {
             statuscolumn = { enabled = false }, -- enabled in options.lua
 			win = { enabled = false },
             words = { enabled = true },
+            lazygit = { enabled = false },
             styles = {
                 notification = {
                     -- wo = { wrap = true } -- Wrap notifications
@@ -480,13 +481,13 @@ return {
                 desc = "Git Browse",
                 mode = { "n", "v" },
             },
-            {
-                "<leader>gg",
-                function()
-                    Snacks.lazygit()
-                end,
-                desc = "Lazygit",
-            },
+            -- {
+            --     "<leader>gg",
+            --     function()
+            --         Snacks.lazygit()
+            --     end,
+            --     desc = "Lazygit",
+            -- },
             {
                 "<leader>un",
                 function()
