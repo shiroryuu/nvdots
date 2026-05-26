@@ -10,6 +10,7 @@ return {
             "nvim-lua/plenary.nvim",
         },
         opts = {
+            ui = { enable = false },
             workspaces = {
                 {
                     name = "Personal",
@@ -36,6 +37,7 @@ return {
             },
         },
     },
+
     {
         'MeanderingProgrammer/render-markdown.nvim',
         dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
@@ -46,6 +48,7 @@ return {
         opts = {},
         ft = "markdown",
     },
+
     {
         "selimacerbas/markdown-preview.nvim",
         dependencies = { "selimacerbas/live-server.nvim" },

@@ -130,6 +130,14 @@ return {
                     desc = "Search Current Buffer",
                 },
                 {
+                    "<leader>sB",
+                    function()
+                        builtin.buffers()
+                    end,
+                    mode = "n",
+                    desc = "Search Buffers",
+                },
+                {
                     "<leader>sc",
                     function()
                         builtin.command_history({
@@ -175,6 +183,16 @@ return {
                     end,
                     desc = "Search Word",
                     mode = "n",
+                },
+                -- TODO : spellcheck list
+                {
+                    "<localleader>sc",
+                    function()
+                        builtin.spell_suggest()
+
+                    end,
+                    desc = "Show Spellcheck",
+                    mode = {"n", "x"},
                 },
                 {
                     "<localleader>sw",
