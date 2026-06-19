@@ -1,0 +1,9 @@
+* My Nvim Wiki
+** TODOs
+   - ( ) Fix `snacks.nvim` lsp_definitions picker.
+   -- NOTE: use `telescope`.
+   - ( ) Finalize btw `vimwiki` and `neorg`
+   - ( ) Improve `neorg` docs.
+   - ( ) Set foldlevel to `2` or `4` for plaintext buffers like `md`,`neorg`.
+   - ( ) `foldmethod = expr` vs `foldmethod = indent`
+   - ( ) Investigate why `render-markdown.nvim` is crashing when `vimwiki` is loaded.
