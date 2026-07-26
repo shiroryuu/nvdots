@@ -190,6 +190,88 @@ return{
 			{ "<leader>tT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
 		},
 	},
+    {
+        "3rd/image.nvim",
+        opts = {
+            backend = "kitty", -- or "ueberzug" or "sixel"
+            processor = "magick_rock", -- or "magick_rock"
+            integrations = {
+                markdown = {
+                    enabled = true,
+                    clear_in_insert_mode = false,
+                    download_remote_images = true,
+                    only_render_image_at_cursor = false,
+                    only_render_image_at_cursor_mode = "popup", -- or "inline"
+                    floating_windows = false, -- if true, images will be rendered in floating markdown windows
+                    filetypes = { "markdown", "vimwiki" }, -- markdown extensions (ie. quarto) can go here
+                },
+                asciidoc = {
+                    enabled = true,
+                    clear_in_insert_mode = false,
+                    download_remote_images = true,
+                    only_render_image_at_cursor = false,
+                    only_render_image_at_cursor_mode = "popup",
+                    floating_windows = false,
+                    filetypes = { "asciidoc", "adoc" },
+                },
+                neorg = {
+                    enabled = true,
+                    filetypes = { "norg" },
+                },
+            },
+        },
+    },
+    {
+        "3rd/diagram.nvim",
+        dependencies = {
+             "3rd/image.nvim" , -- you'd probably want to configure image.nvim manually instead of doing this
+        },
+        opts = { -- you can just pass {}, defaults below
+            events = {
+                render_buffer = { "InsertLeave", "BufWinEnter", "TextChanged" },
+                clear_buffer = {"BufLeave"},
+            },
+            renderer_options = {
+                mermaid = {
+                    background = "dark", -- nil | "transparent" | "white" | "#hex"
+                    theme = nil, -- nil | "default" | "dark" | "forest" | "neutral"
+                    scale = 2, -- nil | 1 (default) | 2  | 3 | ...
+                    width = nil, -- nil | 800 | 400 | ...
+                    height = nil, -- nil | 600 | 300 | ...
+                    cli_args = nil, -- nil | { "--no-sandbox" } | { "-p", "/path/to/puppeteer" } | ...
+                },
+                plantuml = {
+                    charset = nil,
+                    cli_args = nil, -- nil | { "-Djava.awt.headless=true" } | ...
+                },
+                d2 = {
+                    theme_id = nil,
+                    dark_theme_id = nil,
+                    scale = nil,
+                    layout = nil,
+                    sketch = nil,
+                    cli_args = nil, -- nil | { "--pad", "0" } | ...
+                },
+                gnuplot = {
+                    size = nil, -- nil | "800,600" | ...
+                    font = nil, -- nil | "Arial,12" | ...
+                    theme = nil, -- nil | "light" | "dark" | custom theme string
+                    cli_args = nil, -- nil | { "-p" } | { "-c", "config.plt" } | ...
+                },
+            }
+        },
+         keys = {
+            {
+                "K", -- or any key you prefer
+                function()
+                    require("diagram").show_diagram_hover()
+                end,
+                mode = "n",
+                ft = { "markdown", "norg" }, -- Only in these filetypes
+                desc = "Show diagram in new tab",
+            },
+        },
+    },
 
 	{
 		"folke/zen-mode.nvim",

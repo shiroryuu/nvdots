@@ -38,17 +38,16 @@ end
 local function start_autocomp()
     -- Stop any existing autocomp job first
     stop_autocomp()
-    
+
     -- Save file before starting
     vim.cmd("w!")
-    
+
     -- Start the job. We remove 'setsid -f' so Neovim stays the parent.
     local file_path = vim.fn.expand("%:p")
     autocomp_job_id = vim.fn.jobstart({"autocomp", file_path}, {
         detach = false, -- This ensures it dies if Neovim is killed forcefully
         on_exit = function() autocomp_job_id = nil end
     })
-    
     print("Autocomp started for: " .. vim.fn.expand("%:t"))
 end
 

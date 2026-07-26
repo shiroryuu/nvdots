@@ -9,15 +9,56 @@ return {
     --         -- vim.g.vimwiki_ext = 'md'
     --     end,
     -- },
+    -- {
+    --     "vhyrro/luarocks.nvim",
+    --     priority = 1000,
+    --     config = true,
+    -- },
     {
         "nvim-neorg/neorg",
         lazy = false, -- Disable lazy loading as some `lazy.nvim` distributions set `lazy = true` by default
+        dependencies = {
+            "3rd/image.nvim",
+            "luarocks.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "nvim-neorg/tree-sitter-norg",
+               'nvim-neorg/tree-sitter-norg-meta',
+        },
         version = "*", -- Pin Neorg to the latest stable release
+        keys =  function()
+            local neorg = require('neorg');
+            return {
+                {"<leader>fN", function ()
+                    local dirman = neorg.modules.get_module('core.dirman')
+                    local workspace = dirman.get_default_workspace()
+                    local note = dirman.index
+                    -- local dir = dirman.get_norg_files(dirman.get_default_workspace())
+                    local dir = tostring(dirman.get_workspace(workspace))
+                    require('telescope.builtin').find_files({ cwd = dir })
+                end, desc = "List Neorg notes"
+                },
+                { "<leader>ni", "<CMD>Neorg index<CR>", desc = "Goto neorg index" },
+            }
+        end,
         opts = {
             load = {
                 ["core.defaults"] = {},
                 ["core.concealer"] = {},
-                ["core.dirman" ] = {},
+                ["core.dirman" ] = {
+                    config = {
+                        workspaces = {
+                            notes = "~/Documents/neorg",
+                        },
+                        default_workspace = "notes",
+                    },
+                },
+                ["core.export"] = {},
+                ["core.itero"] = {},
+                ["core.storage"] = {},
+                ["core.ui"] = {},
+                ["core.integrations.image"] = {},
+                ["core.latex.renderer"] = {},
+                ["core.integrations.treesitter"] = {},
             },
         },
         config = true,
