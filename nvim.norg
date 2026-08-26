@@ -7,3 +7,21 @@
    - ( ) Set foldlevel to `2` or `4` for plaintext buffers like `md`,`neorg`.
    - ( ) `foldmethod = expr` vs `foldmethod = indent`
    - ( ) Investigate why `render-markdown.nvim` is crashing when `vimwiki` is loaded.
+   - ( ) NVF Configuration
+     -- (x) setup colorscheme to kanagawa-Dragon
+     -- ( ) migrate config
+     --- ( ) LSPs
+     -- ( ) migrate plugins
+     --- ( ) Mini.nvim
+     -- ( ) migrate language defaults
+     -- ( ) accessing plugin functions using nvf
+     --- for ex. running `require("snacks.statuscolumn").get()` in `statuscolumn` when snacks is loaded in nix.
+     --- ( ) set `vim.options.formatexpr` to `conform-nvim.formatexpr()`.
+     --- ( ) set `vim.options.statuscolumn` to `snacks.statuscolumn.get()`.
+     -- (x) Autocmds
+     --- ( ) Macro recording notification
+     -- ( ) Custom Module
+     --- ( ) For `Utils/ui`
+     -- ( ) Add Shortcut for minitrailspace trim
+     --- REFER: `https://github.com/rafi/vim-config`
+     --- `{ '<leader>cw', '<cmd>lua MiniTrailspace.trim()<CR>', desc = 'Erase Whitespace' },`
