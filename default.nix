@@ -1,6 +1,7 @@
 {pkgs, ...}: {
     imports = [
         ./core
+        ./langs
         ./plugins
     ];
     vim.extraPackages = [
