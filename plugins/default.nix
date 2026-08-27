@@ -1,5 +1,11 @@
 {
     imports = [
+        ./cmp.nix
+        ./git.nix
+        ./mini.nix
+        ./oil.nix
+        ./telescope.nix
+        ./ui
     ];
 
     vim = {
