@@ -23,7 +23,7 @@
         {
             key = "<leader>lg";
             mode = ["n"];
-            action = "vim.cmd.Git";
+            action = "<Cmd>Git<CR>";
             silent = true;
             desc = "Open Fugitive";
         }

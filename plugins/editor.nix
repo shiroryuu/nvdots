@@ -21,6 +21,6 @@ in
     };
     vim.utility.undotree.enable = true;
     vim.keymaps = [
-        (mkMap "n" "<Leader>tu" "<cmd>UndotreeToggle<CR>" { desc = "Toggle UndoTree"; })
+        (mkMap "n" "<leader>tu" "<cmd>UndotreeToggle<CR>" { desc = "Toggle UndoTree"; })
     ];
 }

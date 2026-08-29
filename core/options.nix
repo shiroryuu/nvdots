@@ -1,10 +1,14 @@
 {
+    config,
     lib,
     pkgs,
     ...
-}:{
+}:
+let
+    inherit (lib.generators) mkLuaInline;
+in {
     vim.undoFile.enable = true;
-    vim.undoFile.path = "";
+    vim.undoFile.path = mkLuaInline "vim.fn.stdpath('state') .. '/undodir'";
 
     vim.globals = {
         mapleader = " ";
@@ -58,6 +62,7 @@
         history = 250;
         incsearch = true;
         number = true;
+        numberwidth = 3;
         relativenumber = true;
         scrolloff = 8;
         secure = true;
@@ -68,11 +73,15 @@
 		smartindent = true;
 		smoothscroll = true; ## vim >= 0.10
         #statuscolumn = "";
+        # statuscolumn = ''[[%!v:lua.require'snacks.statuscolumn'.get()]]'';
+        statuscolumn = "%!v:lua.require'mini.statuscolumn'.gen_content.main()";
+        # statuscolumn = "%!v:lua.require('mini.statuscolumn').active()";
         tabstop = 4;
         textwidth = 0;
         title = true;
         termguicolors = true;
         wrap = false;
+        winborder = "rounded";
     };
     # disable plugin specific keymaps
     vim.vendoredKeymaps.enable = lib.mkForce false;
