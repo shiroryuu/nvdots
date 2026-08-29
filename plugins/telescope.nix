@@ -1,7 +1,7 @@
-{ lib, pkgs, ... }:
+{ lib, pkgs, inputs, ... }:
 let
     inherit (lib.generators) mkLuaInline;
-    # actions = ''require("telescope.actions")'';
+    actions = ''require("telescope.actions")'';
     builtin = ''require("telescope.builtin")'';
     mkMap = mode: key: action: opts: {
         inherit mode key action;
@@ -21,24 +21,35 @@ in
             {
                 name = "ui-select";
                 packages = [pkgs.vimPlugins.telescope-ui-select-nvim];
-                setup = { };
+                # setup = {};
             }
         ];
-        setupOpts.defaults.mappings = {
-            i = {
-                "<C-n>" = "cycle_history_next";
-                "<C-p>" = "cycle_history_prev";
-                "<C-j>" = "move_selection_next";
-                "<C-k>" = "move_selection_previous";
-                "<Esc>" = lib.mkLuaInline ''
-                        require("telescope.actions").close
-                '';
-            };
-            n = {
-                "q" = "close";
+        setupOpts.defaults = {
+            layout_config.horizontal.prompt_position = "bottom";
+            sorting_strategy = "descending";
+            mappings = {
+                i = {
+                    "<C-n>" = mkLuaInline "${actions}.cycle_history_next";
+                    "<C-p>" = mkLuaInline "${actions}.cycle_history_prev";
+                    "<C-j>" = mkLuaInline "${actions}.move_selection_next";
+                    "<C-k>" = mkLuaInline "${actions}.move_selection_previous";
+                    # "<Esc>" = mkLuaInline "require('telescope.actions').close";
+                };
+                n = {
+                    "<Esc>" = mkLuaInline "${actions}.close";
+                    "q" = mkLuaInline "${actions}.close";
+                };
             };
         };
     };
+
+    # Thanks to @github:LuixBits for this tip
+    # Neorg exposes telescope.nvim through pack/start, so requiring
+    # Telescope can otherwise bypass NVF's lazy setup and its mappings.
+    vim.luaConfigRC.telescope-configured = lib.nvim.dag.entryAfter [ "lazyConfigs" ] ''
+          require("lz.n").trigger_load("telescope")
+    '';
+
     vim.keymaps = [
         (mkMap "n" "<Leader>ff"
         ''function() ${builtin}.find_files({ follow = true, }) end''
