@@ -178,5 +178,22 @@ in
         (mkMap "n" "<Leader>gs"
         ''function() ${builtin}.git_status() end''
         { desc = "Git Status"; lua = true ;})
+
+        ## LSP
+        (mkMap "n" "gd"
+        ''function() ${builtin}.lsp_definitions() end''
+        { desc = "Goto Definition"; lua = true ;})
+        (mkMap "n" "gD"
+        ''function() ${builtin}.lsp_declarations() end''
+        { desc = "Goto Declaration"; lua = true ;})
+        (mkMap "n" "gr"
+        ''function() ${builtin}.lsp_references() end''
+        { desc = "Goto Reference"; lua = true ;})
+        (mkMap "n" "gI"
+        ''function() ${builtin}.lsp_implementations() end''
+        { desc = "Goto Implementation"; lua = true ;})
+        (mkMap "n" "gy"
+        ''function() ${builtin}.lsp_type_definitions() end''
+        { desc = "Goto T[y]pe Definition"; lua = true ;})
     ];
 }

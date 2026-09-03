@@ -5,9 +5,8 @@
         ./editor.nix
         ./mini.nix
         ./notes.nix
-        ./oil.nix
-        ./telescope.nix
         ./ui
+        ./utility
     ];
 
     vim = {
