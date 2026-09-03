@@ -1,7 +1,8 @@
 {
     imports = [
-        ./dashboard.nix
         ./colorizer.nix
+        ./dashboard.nix
+        ./input.nix
         ./statuscol.nix
     ];
 }
