@@ -3,6 +3,7 @@
         enable = true;
         setupOpts = {
             sources.default = [ "lsp" "path" "snippets" "buffer" ];
+            keymap = { preset = "default"; };
         };
     };
 }

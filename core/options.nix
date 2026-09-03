@@ -1,5 +1,4 @@
 {
-    config,
     lib,
     pkgs,
     ...
@@ -55,7 +54,7 @@ in {
         # TODO: migrate to hybrid indent/marker
         foldmethod = "indent";
         formatoptions = "jcroqlnt"; # default tcqj
-        #formatexpr = ""; #TODO:
+        formatexpr = "v:lua.require'conform.nvim'.formatexpr()"; #TODO:
         grepprg = "${lib.getExe pkgs.ripgrep} --vimgrep";
 		grepformat = "%f:%l:%c:%m";
         hlsearch = false;
@@ -72,10 +71,6 @@ in {
 		smartcase = true;
 		smartindent = true;
 		smoothscroll = true; ## vim >= 0.10
-        #statuscolumn = "";
-        # statuscolumn = ''[[%!v:lua.require'snacks.statuscolumn'.get()]]'';
-        statuscolumn = "%!v:lua.require'mini.statuscolumn'.gen_content.main()";
-        # statuscolumn = "%!v:lua.require('mini.statuscolumn').active()";
         tabstop = 4;
         textwidth = 0;
         title = true;
