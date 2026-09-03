@@ -2,7 +2,7 @@
     imports = [
         ./cmp.nix
         ./git.nix
-        ./editor.nix
+        ./editor
         ./mini.nix
         ./notes.nix
         ./ui
@@ -10,7 +10,6 @@
     ];
 
     vim = {
-      lsp.enable = true;
       treesitter.vendorCLI = true;
       formatter.conform-nvim.enable = true;
     };

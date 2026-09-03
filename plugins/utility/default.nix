@@ -1,7 +1,8 @@
 {
     imports = [
         ./oil.nix
-        ./telescope.nix
         ./session.nix
+        ./telescope.nix
+        ./undo.nix
     ];
 }
