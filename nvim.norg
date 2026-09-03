@@ -45,6 +45,8 @@
    -- ( ) Add Shortcut for minitrailspace trim
    --- REFER: `https://github.com/rafi/vim-config`
    --- `{ '<leader>cw', '<cmd>lua MiniTrailspace.trim()<CR>', desc = 'Erase Whitespace' },`
+   - ( ) Refactor
+   -- ( ) Move 'images-nvim' to separate file.
 
 ** Fix
-   - ( ) keybinds for cmp
+   - (x) keybinds for cmp

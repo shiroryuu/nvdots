@@ -8,7 +8,7 @@
         };
         lsp = {
             enable = true;
-            servers = ["nil"];
+            servers = ["nixd"];
         };
     };
 }
