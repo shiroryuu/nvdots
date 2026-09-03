@@ -31,7 +31,8 @@ in
                         # ene | startinsert
                         action = "enew";
                         key = "e";
-                    }{
+                    }
+                    {
                         icon = " ";
                         icon_hl = "@variable";
                         desc = "Files";
@@ -76,13 +77,13 @@ in
                     {
                         icon = " ";
                         desc = "Restore Session";
-                        action = "PersistenceLoad";
+                        action = "Persisted load_last";
                         key = "r";
                     }
                     {
                         icon = " ";
                         desc = "Select Session";
-                        action = "PersistenceSelect";
+                        action = "Persisted load";
                         key = "R";
                     }
                     {
