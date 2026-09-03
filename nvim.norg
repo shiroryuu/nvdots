@@ -23,16 +23,19 @@
    ---- ( ) Markdown-render
    ---- ( ) Markdown-preview
    --- ( ) harpoon
-   --- ( ) undotree
+   --- (x) undotree
    --- ( ) nvim-colorizer
    --- ( ) todo-comments.nvim
    --- ( ) image.nvim
    --- ( ) diagram.nvim
    --- ( ) zen-mode.nvim
+   -- ( ) New Plugins
+   --- ( ) Mini.statusline
+   --- ( ) Mini.input
    -- (x) migrate language defaults
-   -- ( ) accessing plugin functions using nvf
+   -- (x) accessing plugin functions using nvf
    --- for ex. running `require("snacks.statuscolumn").get()` in `statuscolumn` when snacks is loaded in nix.
-   --- ( ) set `vim.options.formatexpr` to `conform-nvim.formatexpr()`.
+   --- (x) set `vim.options.formatexpr` to `conform-nvim.formatexpr()`.
    --- -( ) set `vim.options.statuscolumn` to `snacks.statuscolumn.get()`.-
    --- Note: Moved to `mini.statuscolumn`.
    -- (x) Autocmds
